@@ -1,24 +1,152 @@
-# Better Gllue Frontend
+# 更好的谷露前端
 
-一个面向 Gllue CRM 的 MV3 浏览器扩展，用 React 重做更清爽的只读工作台。
+一个给招聘顾问使用的浏览器插件，主要解决 **脉脉人才导入前查重** 和 **脉脉候选人在库提示** 两件事。
 
-它会注入到你自己的 Gllue 页面中，把常用信息整理成更容易浏览、搜索和切换的界面；新增、编辑、备注、推荐等写操作仍回到 Gllue 原生页面完成。
+插件安装后，可以在你自己的谷露 CRM 和脉脉页面上辅助查看候选人是否已经在库，减少重复录入、重复沟通和手动来回搜索。
 
-## Features
+## 它能解决什么问题
 
-- **Dashboard**: 汇总人才、公司、项目和本周业务进展。
-- **Candidate / Client Views**: 更聚合的列表、搜索和详情入口。
-- **Project Map**: 在本地维护在招项目，并按公司、职位、地点生成关系图谱。
-- **Maimai Helper**: 在 maimai.cn 人才详情页提示候选人是否已在库。
-- **Optional Enhance API**: 可选的 Node 服务，用于候选人索引和 OCR 代理。
+招聘顾问在脉脉上看候选人时，经常会遇到这些情况：
 
-## Safety First
+- 不确定这个人谷露里有没有。
+- 需要复制姓名、公司、职位，再回谷露搜索。
+- 多个顾问可能重复跟进同一个候选人。
+- 简历或页面信息要手动整理，效率低，也容易漏。
 
-This public repository does not include private hosts, tokens, candidate data, or internal deployment files.
+这个插件的目标是把这些动作前置到脉脉页面里，让你在看人时就能知道“这个人可能已经在库里”，并辅助做导入前判断。
 
-Runtime addresses are injected from local environment variables during build. If no host is configured, the extension keeps the placeholder host and will not run against a real CRM site.
+## 主要功能
 
-## Tech Stack
+### 1. 脉脉查重提示
+
+在 `maimai.cn` 的人才详情页，插件会根据候选人页面信息，提示该候选人是否可能已经存在于谷露人才库。
+
+效果：
+
+- 看脉脉人才时直接看到在库提示。
+- 减少手动切回谷露搜索的次数。
+- 降低重复录入、重复推荐、重复沟通的概率。
+
+### 2. 脉脉导入前辅助判断
+
+插件会尽量从页面或简历信息里提取候选人的基础信息，用于导入前比对。
+
+适合用来辅助判断：
+
+- 是否已经有同名 / 同公司 / 相似经历候选人。
+- 是否需要先查看谷露原记录再继续录入。
+- 是否需要交给已有顾问跟进。
+
+### 3. 谷露页面增强
+
+在谷露 CRM 页面里，插件提供一个更聚合的只读前端视图，用来快速查看人才、公司、项目和本周业务进展。
+
+注意：新增、编辑、备注、推荐等写操作仍回到谷露原页面完成。
+
+## 如何下载
+
+### 方法一：直接下载 ZIP
+
+1. 打开本仓库页面。
+2. 点击右上方绿色按钮 `Code`。
+3. 点击 `Download ZIP`。
+4. 解压下载的压缩包。
+
+### 方法二：用 git 下载
+
+```bash
+git clone https://github.com/William-0406/better-gllue-frontend.git
+cd better-gllue-frontend
+```
+
+## 如何安装使用
+
+### 1. 配置地址
+
+复制 `.env.example` 为 `.env.local`，填写你们自己的谷露地址：
+
+```env
+VITE_GLLUE_HOST=your-gllue-host.example.com
+VITE_ENHANCE_HOST=
+```
+
+说明：
+
+- `VITE_GLLUE_HOST`：你们的谷露 CRM 主机名，不要带 `http://` 或 `https://`。
+- `VITE_ENHANCE_HOST`：可选增强服务地址；没有部署增强服务就留空。
+- `.env.local` 不会提交到 GitHub。
+
+### 2. 构建插件
+
+```bash
+npm install
+npm run build:extension
+```
+
+构建完成后会生成：
+
+```text
+dist-extension/
+```
+
+### 3. 加载到浏览器
+
+Edge：
+
+1. 打开 `edge://extensions/`。
+2. 开启“开发人员模式”。
+3. 点击“加载解压缩的扩展”。
+4. 选择项目里的 `dist-extension/` 文件夹。
+
+Chrome：
+
+1. 打开 `chrome://extensions/`。
+2. 开启“开发者模式”。
+3. 点击“加载已解压的扩展程序”。
+4. 选择项目里的 `dist-extension/` 文件夹。
+
+### 4. 开始使用
+
+1. 打开并登录你们的谷露 CRM。
+2. 打开脉脉人才详情页。
+3. 点击浏览器工具栏里的插件图标。
+4. 查看页面里的在库提示或导入前辅助信息。
+
+## 实际效果
+
+使用后，顾问可以更快完成这些判断：
+
+- 这个候选人是不是已经进过库。
+- 是否需要继续录入。
+- 是否应该先看谷露原记录。
+- 是否存在重复跟进风险。
+
+它不是替代顾问判断，而是把“查一下有没有重复”这件事放到更顺手的位置。
+
+## 当前短板
+
+- 查重结果依赖页面可读取的信息，页面信息越少，判断越不稳定。
+- 如果候选人姓名、公司、职位写法不一致，可能出现漏判或弱匹配。
+- 没有部署增强服务时，部分 OCR 或更深层的查重能力不可用。
+- 插件需要根据你们自己的谷露地址重新配置和构建，不能下载后无配置直接用。
+- 浏览器扩展是开发者模式加载，更新时需要重新构建并手动加载新版。
+
+## 使用风险
+
+- 查重提示只能作为辅助，不能当作最终结论。
+- 如果谷露账号权限不足，插件也只能看到当前账号能访问的数据。
+- 脉脉或谷露页面结构变化后，插件可能需要适配。
+- 不要把 `.env.local`、内部地址、候选人数据、截图、日志提交到公开仓库。
+- 公开使用前，请确认没有公司内部接口、真实候选人信息或客户信息被打包进代码。
+
+## 隐私说明
+
+- 插件设计为只读辅助工具。
+- 写操作仍回到谷露原页面完成。
+- 本公开仓库不包含内网地址、账号密码、token 或真实候选人数据。
+- 本地构建产物、`.env.local`、日志和内部文档已通过 `.gitignore` 排除。
+
+## 技术栈
 
 - Vite
 - React
@@ -27,79 +155,16 @@ Runtime addresses are injected from local environment variables during build. If
 - animal-island-ui
 - lucide-react
 
-## Quick Start
+## 常用命令
 
 ```bash
-npm install
-cp .env.example .env.local
+npm run dev
+npm run build
 npm run build:extension
+npm run watch:extension
+npm run preview
 ```
 
-The extension build will be generated in:
+## 许可证
 
-```text
-dist-extension/
-```
-
-Load it in your browser:
-
-1. Open `edge://extensions/` or `chrome://extensions/`.
-2. Turn on Developer mode.
-3. Click Load unpacked.
-4. Select the `dist-extension/` folder.
-5. Open your Gllue CRM page and click the extension icon.
-
-## Configuration
-
-Create `.env.local` from `.env.example`:
-
-```env
-VITE_GLLUE_HOST=your-gllue-host.example.com
-VITE_ENHANCE_HOST=
-```
-
-Field notes:
-
-- `VITE_GLLUE_HOST`: your CRM host, without protocol.
-- `VITE_ENHANCE_HOST`: optional enhance API host, without protocol.
-
-`src/config.ts` and the extension build config inject these values into the app and `manifest.json` at build time.
-
-## Scripts
-
-```bash
-npm run dev              # local Vite development
-npm run build            # web build
-npm run build:extension  # browser extension build
-npm run watch:extension  # watch extension content script
-npm run preview          # preview web build
-```
-
-## Project Structure
-
-```text
-src/
-  components/       Shared UI components
-  extension/        MV3 background, bridge, content scripts
-  pages/            Dashboard and business views
-  services/         API clients and data hooks
-  config.ts         Runtime host configuration
-
-public/
-  manifest.json     Extension manifest template
-
-server/
-  gllue-enhance-api Optional enhance API service
-```
-
-## Data And Privacy
-
-- The extension is designed as a read-only overlay.
-- Write actions intentionally open the original Gllue page.
-- Local project-map records are stored in the browser only.
-- `.env.local`, build outputs, local data, logs, and internal documents are ignored by Git.
-- The optional enhance API should be deployed and configured privately by each team.
-
-## License
-
-No license has been declared yet. Treat this repository as source-available unless a license is added.
+当前还没有声明开源许可证。添加许可证前，请先按 source-available 项目理解和使用。
