@@ -1,49 +1,105 @@
-# gllue-ui-shell
+# Better Gllue Frontend
 
-一个 MV3 浏览器扩展(Edge / Chrome),注入到你们自建的 **谷露(Gllue) CRM** 页面,用自定义 React 界面替换原生 SPA,提供更好看、更聚合的**只读**视图;写操作仍跳转回谷露原生页面完成。附带:
+一个面向 Gllue CRM 的 MV3 浏览器扩展，用 React 重做更清爽的只读工作台。
 
-- **项目图谱**:顾问在本地维护"在招项目",可视化成公司 / 职位 / base 地点的关系图。
-- **脉脉查重助手**:在 maimai.cn 人才详情页,提示该候选人是否已在谷露库中。
-- **增强服务器**(可选,`server/gllue-enhance-api/`):候选人查重索引 + 百度 OCR 代理。
+它会注入到你自己的 Gllue 页面中，把常用信息整理成更容易浏览、搜索和切换的界面；新增、编辑、备注、推荐等写操作仍回到 Gllue 原生页面完成。
 
-技术栈:Vite + React 18/19 + TypeScript,组件库 `animal-island-ui`。
+## Features
 
-> ⚠️ 本仓库**不含任何内网地址**。谷露主机、增强服务器地址都通过环境变量注入(见下)。默认占位符是 `your-gllue-host.example.com`,不填就不会注入到任何真实站点。
+- **Dashboard**: 汇总人才、公司、项目和本周业务进展。
+- **Candidate / Client Views**: 更聚合的列表、搜索和详情入口。
+- **Project Map**: 在本地维护在招项目，并按公司、职位、地点生成关系图谱。
+- **Maimai Helper**: 在 maimai.cn 人才详情页提示候选人是否已在库。
+- **Optional Enhance API**: 可选的 Node 服务，用于候选人索引和 OCR 代理。
 
-## 配置
+## Safety First
 
-复制 `.env.example` 为 `.env.local`(已被 gitignore,不会提交),填入你们的地址:
+This public repository does not include private hosts, tokens, candidate data, or internal deployment files.
 
-```
-VITE_GLLUE_HOST=你们的谷露主机        # 例如 10.0.0.5 或 gllue.mycorp.com（可带端口）
-VITE_ENHANCE_HOST=你们的增强服务器     # 例如 10.0.0.6:3100，没有就留空
-```
+Runtime addresses are injected from local environment variables during build. If no host is configured, the extension keeps the placeholder host and will not run against a real CRM site.
 
-`config.ts` 和构建脚本会在 build 时把这些值注入到代码和 `manifest.json`。
+## Tech Stack
 
-## 构建 & 安装
+- Vite
+- React
+- TypeScript
+- Chrome / Edge MV3 extension
+- animal-island-ui
+- lucide-react
+
+## Quick Start
 
 ```bash
 npm install
-npm run build:extension      # 产物在 dist-extension/
+cp .env.example .env.local
+npm run build:extension
 ```
 
-然后在浏览器加载解压的扩展:
+The extension build will be generated in:
 
-1. 打开 `edge://extensions/`(Chrome 是 `chrome://extensions/`),开启**开发者模式**。
-2. 点"加载解压缩的扩展",选择 `dist-extension/` 文件夹。
-3. 打开你们的谷露页面,点扩展图标即可切换到新界面。
+```text
+dist-extension/
+```
 
-其它脚本:`npm run dev`(本地开发,dev 代理目标同样读 `VITE_GLLUE_HOST`)、`npm run build`(网页版)、`npm run watch:extension`(改完自动重 build)。
+Load it in your browser:
 
-## 目录
+1. Open `edge://extensions/` or `chrome://extensions/`.
+2. Turn on Developer mode.
+3. Click Load unpacked.
+4. Select the `dist-extension/` folder.
+5. Open your Gllue CRM page and click the extension icon.
 
-- `src/` — 前端 React 应用与内容脚本 / service worker(`src/extension/`)。
-- `src/config.ts` — 内网地址的唯一来源(从环境变量读)。
-- `public/manifest.json` — 扩展清单(host 用 `__GLLUE_HOST__` 占位,build 时注入)。
-- `server/gllue-enhance-api/` — 可选的增强服务器(Node)。
+## Configuration
 
-## 说明
+Create `.env.local` from `.env.example`:
 
-- 扩展只做**只读**展示,不修改谷露数据;所有写操作回谷露原生页面。
-- 增强服务器只存候选人**摘要 + 联系方式 hash**,不存谷露 cookie;百度 OCR key 只从环境变量读。
+```env
+VITE_GLLUE_HOST=your-gllue-host.example.com
+VITE_ENHANCE_HOST=
+```
+
+Field notes:
+
+- `VITE_GLLUE_HOST`: your CRM host, without protocol.
+- `VITE_ENHANCE_HOST`: optional enhance API host, without protocol.
+
+`src/config.ts` and the extension build config inject these values into the app and `manifest.json` at build time.
+
+## Scripts
+
+```bash
+npm run dev              # local Vite development
+npm run build            # web build
+npm run build:extension  # browser extension build
+npm run watch:extension  # watch extension content script
+npm run preview          # preview web build
+```
+
+## Project Structure
+
+```text
+src/
+  components/       Shared UI components
+  extension/        MV3 background, bridge, content scripts
+  pages/            Dashboard and business views
+  services/         API clients and data hooks
+  config.ts         Runtime host configuration
+
+public/
+  manifest.json     Extension manifest template
+
+server/
+  gllue-enhance-api Optional enhance API service
+```
+
+## Data And Privacy
+
+- The extension is designed as a read-only overlay.
+- Write actions intentionally open the original Gllue page.
+- Local project-map records are stored in the browser only.
+- `.env.local`, build outputs, local data, logs, and internal documents are ignored by Git.
+- The optional enhance API should be deployed and configured privately by each team.
+
+## License
+
+No license has been declared yet. Treat this repository as source-available unless a license is added.
