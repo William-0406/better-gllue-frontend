@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>更好的谷露前端安装和使用教程</title>
+  <style>
+    :root {
+      --ink: #4f3e2b;
+      --muted: #7a664b;
+      --line: rgba(114, 93, 66, .16);
+      --paper: #fffaf0;
+      --mint: #76bd83;
+      --sky: #7d9be8;
+      --sun: #e8b845;
+      --rose: #e9829d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      background:
+        linear-gradient(rgba(114,93,66,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(114,93,66,.035) 1px, transparent 1px),
+        #fbf5e7;
+      background-size: 28px 28px;
+      line-height: 1.6;
+    }
+    .page { max-width: 1180px; margin: 0 auto; padding: 34px 28px 60px; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255,250,240,.94);
+      box-shadow: 0 8px 0 rgba(114,93,66,.09), 0 22px 42px rgba(79,62,43,.10);
+    }
+    h1 { margin: 0 0 12px; font-size: 42px; line-height: 1.12; }
+    h2 { margin: 42px 0 16px; font-size: 28px; }
+    h3 { margin: 0 0 8px; font-size: 19px; }
+    p { margin: 0; }
+    .hero p, .note, .step p, .feature p { color: var(--muted); font-weight: 700; }
+    .badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: #d7f4e9;
+      color: #267465;
+      font-size: 13px;
+      font-weight: 900;
+    }
+    .mock-browser {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 6px 0 rgba(114,93,66,.10);
+    }
+    .mock-bar {
+      display: grid;
+      grid-template-columns: 48px 1fr 90px;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      background: #e8eef8;
+      border-bottom: 1px solid var(--line);
+    }
+    .dots, .icons { display: flex; gap: 6px; }
+    .dots span, .icons span { width: 10px; height: 10px; border-radius: 50%; background: #8ba0bd; }
+    .url { min-height: 30px; padding: 5px 12px; border-radius: 999px; background: #fff; color: #6f5a39; font-size: 13px; font-weight: 800; }
+    .mock-screen {
+      min-height: 230px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      padding: 18px;
+      background: #fbf5e7;
+    }
+    .mock-card, .step, .feature {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,250,240,.92);
+      box-shadow: 0 5px 0 rgba(114,93,66,.08);
+    }
+    .mock-card { padding: 16px; }
+    .mock-card strong, .mock-card span { display: block; }
+    .mock-card strong { font-size: 20px; }
+    .mock-card span { margin-top: 8px; color: var(--muted); font-weight: 800; }
+    .pill { display: inline-flex; margin-top: 14px; padding: 8px 12px; border-radius: 999px; color: #fff; background: var(--mint); font-weight: 900; }
+    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .step { min-height: 185px; padding: 18px; border-top: 5px solid var(--mint); }
+    .step:nth-child(3n+2) { border-top-color: var(--sun); }
+    .step:nth-child(3n) { border-top-color: var(--sky); }
+    .num {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 12px;
+      border-radius: 14px;
+      color: #fff;
+      background: var(--mint);
+      box-shadow: 0 4px 0 rgba(114,93,66,.14);
+      font-weight: 900;
+    }
+    .features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .feature { display: grid; grid-template-columns: 54px 1fr; gap: 14px; padding: 18px; }
+    .icon {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      color: #fff;
+      background: var(--sky);
+      font-size: 24px;
+      font-weight: 900;
+    }
+    .mini { display: grid; gap: 10px; margin-top: 14px; padding: 14px; border-radius: 16px; background: rgba(255,255,255,.68); border: 1px solid var(--line); }
+    .row { min-height: 38px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px; border-radius: 12px; background: #fff8df; font-weight: 900; }
+    .row em { color: var(--rose); font-style: normal; }
+    .callout { margin-top: 18px; padding: 18px; border: 1px solid rgba(38,116,101,.18); border-radius: 18px; background: #d7f4e9; color: #267465; font-weight: 900; }
+    .warning { background: #ffe5d9; color: #9b4050; border-color: rgba(155,64,80,.18); }
+    code { padding: 2px 6px; border-radius: 8px; background: #f2e6c8; color: #5f4b33; font-family: Consolas, monospace; font-weight: 900; }
+    kbd { padding: 2px 7px; border-radius: 8px; background: #fff8df; border: 1px solid var(--line); border-bottom-width: 2px; font-weight: 900; font-size: 13px; color: #5f4b33; }
+    .itable { width: 100%; border-collapse: collapse; margin-top: 16px; background: rgba(255,250,240,.92); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 5px 0 rgba(114,93,66,.08); }
+    .itable th, .itable td { text-align: left; padding: 11px 15px; border-bottom: 1px solid var(--line); font-weight: 800; }
+    .itable th { background: #faf0d8; color: var(--muted); font-size: 14px; }
+    .itable td:first-child { white-space: nowrap; color: #5f4b33; }
+    .itable tr:last-child td { border-bottom: 0; }
+    .legend { display: flex; flex-wrap: wrap; gap: 18px; margin: 16px 0; }
+    .legend span { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; }
+    .legend i { width: 18px; height: 18px; border-radius: 50%; border: 3px solid; display: inline-block; }
+    .lead2 { color: var(--muted); font-weight: 700; margin: 6px 0 0; }
+    footer { margin-top: 42px; padding: 18px; color: var(--muted); text-align: center; font-weight: 800; }
+    @media (max-width: 900px) {
+      .page { padding: 20px 14px 40px; }
+      .hero, .mock-screen, .features, .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <h1>更好的谷露前端<br>安装和使用教程</h1>
+        <p>给顾问看的图示版教程。插件只读展示谷露数据，新增、推荐、备注等写操作仍回到谷露原页面完成。</p>
+        <div class="badges">
+          <span class="badge">Edge / Chrome 插件</span>
+          <span class="badge">谷露只读前端</span>
+          <span class="badge">支持脉脉查重提示</span>
+          <span class="badge">项目图谱</span>
+        </div>
+      </div>
+      <div class="mock-browser">
+        <div class="mock-bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="url">http://your-gllue-host.example.com/crm</div>
+          <div class="icons"><span></span><span></span><span></span></div>
+        </div>
+        <div class="mock-screen">
+          <div class="mock-card"><strong>更好的谷露前端</strong><span>人才 · 公司 · 项目</span><div class="pill">ON</div></div>
+          <div class="mock-card"><strong>今日备注人才</strong><span>导入前查重</span><span>脉脉在库提示</span></div>
+        </div>
+      </div>
+    </section>
+
+    <h2>首次安装</h2>
+    <p class="note">收到压缩包后按 6 步安装。重点：选择解压后的 <code>dist-extension</code> 文件夹。</p>
+    <section class="steps">
+      <article class="step"><div class="num">1</div><h3>解压压缩包</h3><p>右键「更好的谷露前端.zip」，选择“全部解压缩”。不要直接在 zip 里加载插件。</p></article>
+      <article class="step"><div class="num">2</div><h3>打开扩展管理</h3><p>在 Edge 地址栏输入 <code>edge://extensions/</code> 并回车。</p></article>
+      <article class="step"><div class="num">3</div><h3>打开开发人员模式</h3><p>打开“开发人员模式”，页面会出现“加载解压缩的扩展”。</p></article>
+      <article class="step"><div class="num">4</div><h3>加载插件文件夹</h3><p>点击“加载解压缩的扩展”，选择解压后文件夹里的 <code>dist-extension</code>。</p></article>
+      <article class="step"><div class="num">5</div><h3>打开谷露</h3><p>进入 <code>http://your-gllue-host.example.com/crm</code> 并登录谷露账号。</p></article>
+      <article class="step"><div class="num">6</div><h3>点击插件图标</h3><p>在浏览器工具栏点击“更好的谷露前端”图标，页面出现新版前端即安装成功。</p></article>
+    </section>
+    <div class="callout warning">最容易错的一步：第 4 步要选<b>解压后文件夹里面的 <code>dist-extension</code> 子文件夹</b>，不是外层解压文件夹、更不是 zip 本身。选错会加载失败，或装上后点图标“没反应”。</div>
+    <div class="callout">如果插件图标不在工具栏，可以点浏览器右上角“扩展”图标，把“更好的谷露前端”固定到工具栏，之后用起来更方便。</div>
+
+    <h2>日常使用</h2>
+    <section class="features">
+      <article class="feature"><div class="icon">开</div><div><h3>开启 / 关闭</h3><p>在谷露页面点击浏览器插件图标即可切换。页面右上角“恢复谷露”可以回到原谷露界面。</p><div class="mini"><div class="row"><span>插件图标</span><em>开启新版前端</em></div><div class="row"><span>恢复谷露</span><em>回原页面</em></div></div></div></article>
+      <article class="feature"><div class="icon">查</div><div><h3>搜索人才 / 公司 / 项目</h3><p>顶部搜索框快速查谷露记录。点击结果会打开谷露原详情页。</p><div class="mini"><div class="row"><span>搜索</span><em>只读查询</em></div><div class="row"><span>打开结果</span><em>跳谷露原页</em></div></div></div></article>
+      <article class="feature"><div class="icon">简</div><div><h3>导入前查重</h3><p>首页“导入前检查”选择简历后，会本地解析姓名、手机、邮箱，再查谷露是否已有记录。</p><div class="mini"><div class="row"><span>发现重复</span><em>先看备注</em></div><div class="row"><span>没有重复</span><em>跳谷露导入</em></div></div></div></article>
+      <article class="feature"><div class="icon">脉</div><div><h3>脉脉在库提示</h3><p>打开脉脉招聘人才详情页时，插件会读取页面可见信息，并提示谷露里是否已有该人才。</p><div class="mini"><div class="row"><span>已在库</span><em>显示最近备注</em></div><div class="row"><span>未发现</span><em>轻提示</em></div></div></div></article>
+    </section>
+
+    <h2>界面速览</h2>
+    <p class="note">顶部导航从左到右，每个入口一句话看懂：</p>
+    <table class="itable">
+      <tr><th>入口</th><th>作用</th></tr>
+      <tr><td>首页</td><td>工作台总览：最近人才、待办、快捷入口。</td></tr>
+      <tr><td>人才 / 公司</td><td>只读浏览候选人、客户公司的列表与详情。</td></tr>
+      <tr><td>项目图谱</td><td>你自己维护的“在招项目”，可视化成节点图（见下）。</td></tr>
+      <tr><td>推荐榜</td><td>内测中，点进去会提示“还在内测”，暂未开放。</td></tr>
+      <tr><td>恢复谷露</td><td>一键切回原生谷露页面。</td></tr>
+    </table>
+
+    <h2>项目图谱：先把项目录进来</h2>
+    <p class="note">“项目图谱”是你<b>自己手动维护</b>的在招项目清单，只存在你这台浏览器本地，不联网、不和别人共享。</p>
+    <section class="steps">
+      <article class="step"><div class="num">1</div><h3>添加项目</h3><p>点右上角“添加项目”，填公司、职位、base 地点、状态（进行中/已结束）、负责顾问、备注。</p></article>
+      <article class="step"><div class="num">2</div><h3>筛选 / 切换</h3><p>顶部按公司 / 职位 / 地点筛选；右上角“图谱 / 列表”切换看关系或看明细。</p></article>
+      <article class="step"><div class="num">3</div><h3>编辑 / 删除</h3><p>列表里点“编辑 / 删除”，或在图谱视图直接点项目节点编辑。</p></article>
+    </section>
+    <div class="callout warning">“生成 100 条测试数据 / 清空全部”是压测按钮，<b>“清空全部”会删掉你所有项目</b>，平时别误点。</div>
+
+    <h2>图谱怎么玩</h2>
+    <p class="note">图谱把每个项目和它的公司 / 职位 / base 地点连起来；共享同一个公司或职位的项目会连到同一个节点，一眼看出哪些项目在抢同一批人。</p>
+    <div class="legend">
+      <span><i style="border-color:#5b7ae0;background:#eef2fe"></i>公司</span>
+      <span><i style="border-color:#9a7be0;background:#f0eafc"></i>职位</span>
+      <span><i style="border-color:#3fae8a;background:#e4f4ee"></i>base 地点</span>
+      <span><i style="border-color:#e0954f;background:#fbeede"></i>项目</span>
+    </div>
+    <p class="lead2">圈越大＝挂的项目越多。项目节点平时是小点，鼠标悬停或被高亮时才显示名字。</p>
+    <table class="itable">
+      <tr><th>想做的</th><th>操作</th></tr>
+      <tr><td>缩放</td><td>按住 <kbd>Ctrl</kbd>（Mac <kbd>⌘</kbd>）+ 滚轮，或右上角 ＋ / － 按钮。普通滚轮＝翻页（方便滚回上面的筛选栏）。</td></tr>
+      <tr><td>平移画布</td><td>在空白处按住拖动。</td></tr>
+      <tr><td>整理布局</td><td>直接拖动某个节点摆位（拖动不会误触发编辑 / 筛选）。</td></tr>
+      <tr><td>按公司/职位/地点筛选</td><td>单击对应的公司 / 职位 / 地点节点。</td></tr>
+      <tr><td>编辑项目</td><td>单击该项目节点，弹出编辑窗。</td></tr>
+      <tr><td>聚焦看关联</td><td>双击任意节点，视野自动框住它和它直接相连的一圈。</td></tr>
+      <tr><td>高亮关联</td><td>鼠标悬停节点，高亮它和相关的节点、连线。</td></tr>
+      <tr><td>快速定位</td><td>图谱上方搜索框输入名称，回车定位第一个结果。</td></tr>
+      <tr><td>全屏</td><td>右上角“全屏”铺满屏幕；全屏时普通滚轮就能直接缩放，<kbd>Esc</kbd> 退出。</td></tr>
+      <tr><td>回到全览 / 重排</td><td>右上角“适应画布 / 重新排列”。</td></tr>
+    </table>
+    <div class="callout">接到新需求或新候选人时，在图谱里找到对应的职位 / 公司节点，悬停或双击，就能快速看出你之前做过哪些重合项目、能复用哪批候选人。</div>
+
+    <h2>脉脉查重（详解）</h2>
+    <p class="note">在脉脉(maimai.cn)看候选人时，帮你快速判断“这个人是不是已经在谷露库里了”。</p>
+    <section class="steps">
+      <article class="step"><div class="num">1</div><h3>打开人才详情</h3><p>在脉脉打开某人的人才详情页，左侧浮出可拖动的小面板，自动读取姓名 / 年龄 / 学历 / 公司 / 职位。</p></article>
+      <article class="step"><div class="num">2</div><h3>点“查重”</h3><p>确认读取无误后，点面板上的“查重”按钮。</p></article>
+      <article class="step"><div class="num">3</div><h3>看结果</h3><p>分“已在库 / 疑似 / 同名 / 未命中”。已在库会显示最近备注，方便你判断跟进情况。</p></article>
+    </section>
+    <div class="callout warning">前提：当前浏览器要<b>已登录谷露</b>且在公司网络内，否则会提示“连接谷露失败 / 连不上谷露”（这不代表库里没这个人）。脉脉拿不到手机号 / 邮箱，只能靠姓名+公司+职位比对，所以结果是<b>线索、不是定论</b>，“疑似 / 同名”务必回谷露再核一遍。</div>
+
+    <h2>更新插件</h2>
+    <section class="steps">
+      <article class="step"><div class="num">1</div><h3>解压新包</h3><p>把新的「更好的谷露前端.zip」解压出来，保留其中的 <code>dist-extension</code>。</p></article>
+      <article class="step"><div class="num">2</div><h3>删除旧版本</h3><p>打开 <code>edge://extensions/</code>，找到旧版“更好的谷露前端”，点击删除。</p></article>
+      <article class="step"><div class="num">3</div><h3>加载新版</h3><p>点击“加载解压缩的扩展”，选择新版解压后的 <code>dist-extension</code> 文件夹。</p></article>
+    </section>
+
+    <h2>常见问题</h2>
+    <section class="features">
+      <article class="feature"><div class="icon">?</div><div><h3>点插件没反应</h3><p>先刷新谷露页面，再点击插件图标。仍无反应时，回扩展管理页重新加载新版插件。</p></div></article>
+      <article class="feature"><div class="icon">锁</div><div><h3>数据和权限</h3><p>插件只读取当前谷露账号有权限看到的数据，不保存账号、密码、Cookie 或候选人数据。</p></div></article>
+      <article class="feature"><div class="icon">图</div><div><h3>项目图谱会被别人看到吗</h3><p>不会。项目图谱只存在你自己浏览器本地，不上传、不共享；换电脑或换浏览器需要重新录入。</p></div></article>
+      <article class="feature"><div class="icon">脉</div><div><h3>脉脉查重点了没反应</h3><p>确认：这台浏览器已登录谷露、在公司网络内、当前是脉脉的人才详情页。看到“连接谷露失败”多半是没登录谷露。</p></div></article>
+      <article class="feature"><div class="icon">全</div><div><h3>图谱滚不动 / 回不到筛选</h3><p>鼠标停在图谱上时普通滚轮用来翻页；要缩放请按住 <kbd>Ctrl</kbd>/<kbd>⌘</kbd> 再滚，或点右上角“全屏”看大图。</p></div></article>
+    </section>
+    <div class="callout warning">新增、推荐、备注、跟进等写操作仍然在谷露原页面完成。插件负责看得更清楚，不替你直接写入谷露。</div>
+    <footer>更好的谷露前端 · 安装和使用教程</footer>
+  </main>
+</body>
+</html>

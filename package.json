@@ -1,0 +1,31 @@
+{
+  "name": "gllue-ui-shell",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite --host 127.0.0.1",
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -b && vite build",
+    "build:embedded": "vite build --config vite.embedded.config.ts",
+    "build:extension": "vite build --config vite.extension.config.ts --mode ext-content --emptyOutDir && vite build --config vite.extension.config.ts --mode ext-maimai && vite build --config vite.extension.config.ts --mode ext-background",
+    "watch:extension": "vite build --config vite.extension.config.ts --mode ext-content --watch",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "animal-island-ui": "latest",
+    "axios": "latest",
+    "lucide-react": "latest",
+    "mammoth": "^1.12.0",
+    "pdfjs-dist": "^5.7.284",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3"
+  }
+}

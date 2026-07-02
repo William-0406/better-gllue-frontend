@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "更好的谷露前端",
+  "description": "团队内部使用的谷露美化只读前端。",
+  "version": "1.0.0",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "开启更好的谷露前端",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://__GLLUE_HOST__/*", "https://__GLLUE_HOST__/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://maimai.cn/*", "https://*.maimai.cn/*"],
+      "js": ["maimai.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*", "pdf.mjs", "pdf-parser.mjs", "pdf-page-parser.mjs", "pdf.worker.mjs"],
+      "matches": ["http://__GLLUE_HOST__/*", "https://__GLLUE_HOST__/*"]
+    }
+  ],
+  "host_permissions": ["http://__GLLUE_HOST__/*", "https://__GLLUE_HOST__/*", "https://maimai.cn/*", "https://*.maimai.cn/*", "http://__ENHANCE_HOST__/*", "http://127.0.0.1:3100/*"],
+  "permissions": ["storage", "activeTab", "scripting", "tabs"]
+}

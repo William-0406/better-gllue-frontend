@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-embedded/
+dist-extension/
+*.tsbuildinfo
+
+# Local server data, may contain private resume/candidate content
+server/gllue-enhance-api/data/
+/data/
+
+# Logs
+*.log
+
+# Packaged artifacts / large local files
+*.zip
+
+# Temporary preview screenshots
+resume-import-modal-preview.png
+resume-import-modal-test.png
+visual-guide-preview.png
+weekly-kpi-preview.png
+
+# System files
+.DS_Store
+Thumbs.db
+.git-private-backup/
+
+# Local environment variables
+.env
+.env.*
+!.env.example
+
+# 脱敏（公开仓库）：内部专用文档 / 数据 / 脚本不进公开仓库，
+# 保留在本地（含真实内网地址），公开克隆者不会拿到。
+src/data/system-structure.json
+交接手册.md
+推送GitHub操作步骤.md
+Edge插件安装教程.txt
+docs/extension-install.md
+新手上手指南.html
+tools/

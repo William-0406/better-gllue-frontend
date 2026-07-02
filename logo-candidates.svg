@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420">
+  <rect width="1200" height="420" rx="34" fill="#fff8df"/>
+  <style>
+    .title { font: 800 26px "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #5f4b33; }
+    .label { font: 800 20px "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #6f5a39; }
+    .note { font: 700 15px "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #8a765b; }
+  </style>
+
+  <text x="52" y="58" class="title">更好的谷露前端 Logo 候选</text>
+
+  <g transform="translate(70 105)">
+    <rect width="300" height="235" rx="26" fill="#fffdf4" stroke="#eadfc8" stroke-width="2"/>
+    <circle cx="150" cy="86" r="52" fill="#7dcebc"/>
+    <path d="M124 93c24-48 73-38 72-4-1 30-39 48-72 68 12-31 8-44 0-64z" fill="#fff7df"/>
+    <path d="M146 104c15-23 39-20 38-2-1 17-22 27-39 38 6-18 5-26 1-36z" fill="#5f4b33" opacity=".72"/>
+    <path d="M102 151c45 4 87-11 120-47" stroke="#f5c84c" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <text x="52" y="185" class="label">方案 A：向上生长</text>
+    <text x="52" y="214" class="note">表达效率提升、工作流变顺</text>
+  </g>
+
+  <g transform="translate(450 105)">
+    <rect width="300" height="235" rx="26" fill="#fffdf4" stroke="#eadfc8" stroke-width="2"/>
+    <circle cx="150" cy="86" r="54" fill="#8fb1f2"/>
+    <circle cx="112" cy="92" r="18" fill="#fff7df"/>
+    <circle cx="150" cy="64" r="20" fill="#fff7df"/>
+    <circle cx="190" cy="94" r="18" fill="#fff7df"/>
+    <path d="M126 96c17 22 49 22 66 0" stroke="#5f4b33" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <path d="M105 131h90" stroke="#7dcebc" stroke-width="12" stroke-linecap="round"/>
+    <path d="M197 131l-20-18m20 18l-20 18" stroke="#7dcebc" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="52" y="185" class="label">方案 B：人才连接</text>
+    <text x="52" y="214" class="note">表达协作、候选人和项目匹配</text>
+  </g>
+
+  <g transform="translate(830 105)">
+    <rect width="300" height="235" rx="26" fill="#fffdf4" stroke="#eadfc8" stroke-width="2"/>
+    <circle cx="150" cy="86" r="54" fill="#f3c857"/>
+    <rect x="104" y="72" width="92" height="68" rx="18" fill="#fff7df"/>
+    <path d="M126 72v-9c0-12 10-22 24-22s24 10 24 22v9" stroke="#5f4b33" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M124 110h53" stroke="#7dcebc" stroke-width="10" stroke-linecap="round"/>
+    <path d="M177 110l-15-14m15 14l-15 14" stroke="#7dcebc" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="52" y="185" class="label">方案 C：顺手工作台</text>
+    <text x="52" y="214" class="note">表达稳定、可信赖、操作更顺</text>
+  </g>
+</svg>

@@ -1,0 +1,1307 @@
+[
+  {
+    "api": "/crm",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "人才",
+      "公司",
+      "项目"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/actionmeta/list",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "人才",
+      "公司",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "model_name": "kpi"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/candidate/facet/fields",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/candidate/list",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "demandKeys": "[\"company\",\"avatar\"]",
+        "gql": "owner__eq=%7B%7Buser.id%7D%7D&type=candidate&source=gllue",
+        "ordering": "-id",
+        "paginate_by": "50",
+        "savedSearchId": "23815",
+        "suffix_user_id": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/candidate/list/facet",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "all_facet": "1",
+        "demandFacets": "[]",
+        "demandKeys": "[\"company\",\"avatar\"]",
+        "gql": "owner__eq=%7B%7Buser.id%7D%7D&type=candidate&source=gllue",
+        "savedSearchId": "23815"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/channel/comtree/list",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/city/list",
+    "method": "GET",
+    "modules": [
+      "人才",
+      "公司"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/client/facet/fields",
+    "method": "GET",
+    "modules": [
+      "公司"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/client/list",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "公司"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "gql": "bd__eq={{user.id}}&type__s=prospect",
+        "ordering": "-dateAdded",
+        "paginate_by": "50",
+        "suffix": "o_1be06thsb1db2h4u190v1rft1tta0",
+        "suffix_user_id": "-1"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/client/list/facet",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "公司"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "all_facet": "1",
+        "demandFacets": "[]",
+        "gql": "bd__eq={{user.id}}&type__s=prospect"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/candidate/jobsubmission_set__joborder",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/candidate/jobsubmission_set__joborder__client",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/candidate/jobsubmission_set__jobsubmission_status",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/candidate/source",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/joborder/client__company_name",
+    "method": "GET",
+    "modules": [
+      "项目"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/jobsubmission/candidate__attachment_count",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/jobsubmission/candidate__name",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/jobsubmission/candidate__note_count",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/jobsubmission/candidate__owner",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/jobsubmission/candidate__tags",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/field_trans/jobsubmission/joborder__jobTitle",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/code_file/translation/zh_CN",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "人才",
+      "公司",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_": "02166521a7"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/candidate/config",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/candidate/list",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "suffix_user_id": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/candidate/search",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "adv_search_root": "candidate"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/candidate/search/get_type",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {
+        "adv_search_root": "candidate",
+        "fields": "jobsubmission_set__joborder"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/client/config",
+    "method": "GET",
+    "modules": [
+      "公司"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/client/list",
+    "method": "GET",
+    "modules": [
+      "公司"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "suffix_user_id": "-1"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/client/search",
+    "method": "GET",
+    "modules": [
+      "公司"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "adv_search_root": "client"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/joborder/config",
+    "method": "GET",
+    "modules": [
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/joborder/list",
+    "method": "GET",
+    "modules": [
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "suffix_user_id": "-1"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/joborder/search",
+    "method": "GET",
+    "modules": [
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "adv_search_root": "joborder"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/joborder/search/get_type",
+    "method": "GET",
+    "modules": [
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "adv_search_root": "joborder",
+        "fields": "client__company_name"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/custom_field/jobsubmission/list/get_type",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "fields": "candidate__note_count"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/dashboard/list",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "paginate_by": "200"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/data/dashboardable_model",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/folder/list",
+    "method": "GET",
+    "modules": [
+      "人才",
+      "公司",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "type": "candidate"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/function/list",
+    "method": "GET",
+    "modules": [
+      "人才",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/industry/list",
+    "method": "GET",
+    "modules": [
+      "人才",
+      "公司"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/joborder/facet/fields",
+    "method": "GET",
+    "modules": [
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/joborder/list",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "gql": "joborderuser_set__user__eq={{user.id}}&jobStatus__eq=Live",
+        "ordering": "-lastOperationFlowDateTime",
+        "paginate_by": "25",
+        "suffix": "进展中的项目",
+        "suffix_user_id": "-1"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/joborder/list/facet",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "all_facet": "1",
+        "demandFacets": "[]",
+        "gql": "joborderuser_set__user__eq={{user.id}}&jobStatus__eq=Live"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/jobsubmission/list",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "demandKeys": "[\"candidate__owner\",\"joborder__jobordercontact_set\",\"joborder__joborderuser_set_...",
+        "gql": "joborder__jobStatus__eq=Live&_hide_spec_id=1&jobsubmission_status_kanban=cvsent&cvsent_set__user__eq={{user.id}}",
+        "ordering": "-lastUpdateDate",
+        "paginate_by": "25",
+        "suffix": "Pipeline",
+        "suffix_user_id": "-1"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/jobsubmission/list/facet",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "all_facet": "1",
+        "demandFacets": "[]",
+        "demandKeys": "[\"candidate__owner\",\"joborder__jobordercontact_set\",\"joborder__joborderuser_set_...",
+        "gql": "joborder__jobStatus__eq=Live&_hide_spec_id=1&jobsubmission_status_kanban=cvsent&cvsent_set__user__eq={{user.id}}"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/options/list",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "ext": "jobsubmission",
+        "type": "candidate_status"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/reportdetail/revenue/default_filters",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/reportdetail/revenue/search",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/reporttemplate/list",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "name": "kpi",
+        "type": "__all__"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/reporttemplate/report",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "config_name": "",
+        "daterange__this_month": "",
+        "datetype": "invoice_dateAdded",
+        "filter_basic": "",
+        "gql": "user={{user.id}}",
+        "groupby_x": "fields",
+        "groupby_y": "team__id",
+        "groupby_z": "",
+        "score_config_name": "",
+        "suffix": "我的业绩",
+        "suffix_user_id": "-1",
+        "type": "revenue"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/tablemetadata/list_info_from_first_query_filter",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "人才",
+      "公司",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_pageList": "",
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "fromQueryfilter": "",
+        "savedsearchId": "",
+        "scene": "dashboard",
+        "specialDetailTabSuffix": "",
+        "specialSuffix": "true",
+        "suffix": "o_1be072aesotm1qfudlv1vse55c1",
+        "suffix_user_id": "-1",
+        "type": "kpi",
+        "user": "company"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/team/list",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "人才",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/title/list",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/todo/list",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "gql": "todouser_set__user__eq={{user.id}}&start_date__this_week&done__eq",
+        "ordering": "start_date",
+        "paginate_by": "50",
+        "suffix": "o_1bdls7t2uif413d71gb53071pe41",
+        "suffix_user_id": "-1"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/todo/list/facet",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "all_facet": "1",
+        "demandFacets": "[]",
+        "gql": "todouser_set__user__eq={{user.id}}&start_date__this_week&done__eq"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/upgradegroupmessage/published_to_user",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/upgradegroupmessage/silent_to_user",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "人才",
+      "公司",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/user/actionaccess/candidate",
+    "method": "GET",
+    "modules": [
+      "人才"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/user/actionaccess/client",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "公司"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/user/actionaccess/joborder",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/user/actionaccess/jobsubmission",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/user/actionaccess/kpi",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/user/actionaccess/revenue",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/user/actionaccess/todo",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/user/guide",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/user/navbar_config/1309",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "人才",
+      "公司",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/user/polling",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "人才",
+      "公司",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "cid": "1778813321078"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "/rest/viewconfig/get_default_type",
+    "method": "GET",
+    "modules": [
+      "人才",
+      "公司",
+      "项目"
+    ],
+    "request_params": {
+      "query": {
+        "_v": "ceb26f4839",
+        "_v_user": "1309",
+        "scene": "normal",
+        "suffix": "",
+        "suffix_user_id": "1309",
+        "type": "candidate"
+      },
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": true,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  },
+  {
+    "api": "https://api-os.growingio.com/v2/9fbd537f1a85e0e5/web/pv",
+    "method": "GET",
+    "modules": [
+      "首页 Dashboard",
+      "人才",
+      "公司",
+      "项目"
+    ],
+    "request_params": {
+      "query": {},
+      "body": null,
+      "body_type": null
+    },
+    "requires_cookie": false,
+    "requires_authorization_header": false,
+    "requires_token_header": false
+  }
+]
