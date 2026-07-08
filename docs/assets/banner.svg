@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eafaf3"/>
+      <stop offset="1" stop-color="#fff6dc"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" rx="24" fill="url(#bg)"/>
+  <rect x="6" y="6" width="1188" height="288" rx="20" fill="none" stroke="#79cab3" stroke-width="3"/>
+
+  <!-- 左侧文案 -->
+  <text x="80" y="128" font-size="52" font-weight="700" fill="#2f5d4e">更好的谷露前端</text>
+  <text x="82" y="178" font-size="22" fill="#6b4b2f">招聘顾问的浏览器助手：看脉脉，先知道谷露在不在库</text>
+  <g font-size="17" fill="#4a7a6a">
+    <text x="82" y="222">✦ 一键查重</text>
+    <text x="212" y="222">✦ 一键建档</text>
+    <text x="342" y="222">✦ 简历自动补全</text>
+    <text x="520" y="222">✦ 团队自动更新</text>
+  </g>
+
+  <!-- 右侧小浮窗示意 -->
+  <g transform="translate(830,52)">
+    <rect x="0" y="0" width="290" height="196" rx="18" fill="#ffffff" stroke="#79cab3" stroke-width="3"/>
+    <rect x="0" y="0" width="290" height="46" rx="18" fill="#dff3ea"/>
+    <rect x="0" y="24" width="290" height="22" fill="#dff3ea"/>
+    <text x="20" y="30" font-size="17" font-weight="700" fill="#2f5d4e">查 · 张三 ｜ 示例科技 / 顾问</text>
+    <text x="20" y="76" font-size="14" fill="#6b4b2f">姓名：张三（可改）</text>
+    <text x="20" y="102" font-size="14" fill="#6b4b2f">联系方式：138****0000</text>
+    <text x="20" y="128" font-size="14" fill="#6b4b2f">学历：示例大学 · 本科</text>
+    <rect x="20" y="146" width="250" height="34" rx="17" fill="#79cab3"/>
+    <text x="145" y="169" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">查谷露在库</text>
+  </g>
+</svg>

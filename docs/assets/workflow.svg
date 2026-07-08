@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 300" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif">
+  <rect width="1100" height="300" rx="20" fill="#fbfdfc"/>
+
+  <!-- 步骤 1 -->
+  <g transform="translate(40,60)">
+    <rect width="300" height="180" rx="16" fill="#ffffff" stroke="#c9e6db" stroke-width="2"/>
+    <circle cx="36" cy="40" r="18" fill="#79cab3"/>
+    <text x="36" y="47" font-size="18" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+    <text x="66" y="47" font-size="19" font-weight="700" fill="#2f5d4e">在脉脉看候选人</text>
+    <text x="30" y="88" font-size="14" fill="#666">打开人才详情页，</text>
+    <text x="30" y="112" font-size="14" fill="#666">插件浮窗自动抓取姓名、</text>
+    <text x="30" y="136" font-size="14" fill="#666">公司、学历、联系方式。</text>
+  </g>
+  <path d="M355 150 h35" stroke="#79cab3" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- 步骤 2 -->
+  <g transform="translate(405,60)">
+    <rect width="300" height="180" rx="16" fill="#ffffff" stroke="#c9e6db" stroke-width="2"/>
+    <circle cx="36" cy="40" r="18" fill="#79cab3"/>
+    <text x="36" y="47" font-size="18" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+    <text x="66" y="47" font-size="19" font-weight="700" fill="#2f5d4e">一键查谷露在库</text>
+    <text x="30" y="88" font-size="14" fill="#666">按联系方式精确匹配，</text>
+    <text x="30" y="112" font-size="14" fill="#666">再按档案链接、姓名+经历</text>
+    <text x="30" y="136" font-size="14" fill="#666">分级比对，重名自动过滤。</text>
+  </g>
+  <path d="M720 150 h35" stroke="#79cab3" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- 步骤 3 -->
+  <g transform="translate(770,60)">
+    <rect width="300" height="180" rx="16" fill="#ffffff" stroke="#c9e6db" stroke-width="2"/>
+    <circle cx="36" cy="40" r="18" fill="#79cab3"/>
+    <text x="36" y="47" font-size="18" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+    <text x="66" y="47" font-size="19" font-weight="700" fill="#2f5d4e">该跟进还是该建档</text>
+    <text x="30" y="88" font-size="14" fill="#666">已在库 → 打开原记录，</text>
+    <text x="30" y="112" font-size="14" fill="#666">避免重复跟进；未在库 →</text>
+    <text x="30" y="136" font-size="14" fill="#666">一键建档 + 简历自动补全。</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#79cab3"/>
+    </marker>
+  </defs>
+</svg>

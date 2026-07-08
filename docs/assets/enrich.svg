@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 260" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif">
+  <rect width="1100" height="260" rx="20" fill="#fbfdfc"/>
+
+  <!-- 左：进度条卡片 -->
+  <g transform="translate(50,45)">
+    <rect width="440" height="170" rx="16" fill="#ffffff" stroke="#c9e6db" stroke-width="2"/>
+    <text x="28" y="44" font-size="18" font-weight="700" fill="#2f5d4e">简历自动补全（示意）</text>
+    <text x="28" y="78" font-size="14" fill="#666">正在解析简历，回填工作经历…</text>
+    <rect x="28" y="96" width="384" height="16" rx="8" fill="#e8f3ee"/>
+    <rect x="28" y="96" width="268" height="16" rx="8" fill="#79cab3"/>
+    <text x="28" y="140" font-size="13" fill="#999">附件简历优先 · 图片版自动改用在线简历</text>
+  </g>
+
+  <!-- 右：只补不覆盖规则 -->
+  <g transform="translate(560,45)">
+    <rect width="490" height="170" rx="16" fill="#ffffff" stroke="#c9e6db" stroke-width="2"/>
+    <text x="28" y="44" font-size="18" font-weight="700" fill="#2f5d4e">只补不覆盖</text>
+    <text x="28" y="80" font-size="14" fill="#666">✓ 原有附件、经历描述、联系方式一律保留</text>
+    <text x="28" y="108" font-size="14" fill="#666">✓ 新经历按「公司 + 起始年月」去重后追加</text>
+    <text x="28" y="136" font-size="14" fill="#666">✓ 库里为空的字段才用简历内容补上</text>
+  </g>
+</svg>
