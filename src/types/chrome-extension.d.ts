@@ -13,6 +13,17 @@ declare namespace chrome {
       ): void;
     };
     function sendMessage(message: unknown): Promise<unknown>;
+    function getManifest(): { version: string; name: string };
+  }
+
+  namespace alarms {
+    interface Alarm {
+      name: string;
+    }
+    function create(name: string, alarmInfo: { when?: number; delayInMinutes?: number; periodInMinutes?: number }): void;
+    const onAlarm: {
+      addListener(callback: (alarm: Alarm) => void): void;
+    };
   }
 
   namespace storage {

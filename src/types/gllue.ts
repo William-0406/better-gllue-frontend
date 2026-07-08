@@ -237,7 +237,38 @@ export interface MaimaiProfile {
   experiences?: Array<{ company?: string; title?: string }>;
   education?: string;
   age?: string;
+  // 脉脉个别页面会露出联系方式（如已交换/已实名场景），抓到就带上；浮窗里可手动改。
+  mobile?: string;
+  email?: string;
   sourceUrl: string;
+}
+
+// 顾问（谷露用户）。用于主页"关注顾问"模块的多选。
+export interface Consultant {
+  id: number;
+  name: string;
+  active: boolean;
+  teamId?: number;
+  teamName?: string;
+}
+
+// 当前登录用户（用于按团队软性收窄顾问选择）。
+export interface CurrentUser {
+  id?: number;
+  teamId?: number;
+  teamName?: string;
+}
+
+// 顾问近一个月推荐（cvsent）的人选一行。
+export interface ConsultantRecommendation {
+  submissionId: number;
+  candidateId?: number;
+  candidateName: string;
+  company: string;
+  title: string;
+  date: string;
+  consultantId: number;
+  consultantName: string;
 }
 
 export interface CandidateMatchResult {

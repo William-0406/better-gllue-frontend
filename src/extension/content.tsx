@@ -30,6 +30,18 @@ function removeLauncher() {
   document.getElementById(LAUNCHER_ID)?.remove();
 }
 
+// 启动按钮拖动后记住的位置（按站点存本地）。
+const LAUNCHER_POS_KEY = 'gllueShellLauncherPos';
+
+function clampToViewport(left: number, top: number, el: HTMLElement) {
+  const maxLeft = window.innerWidth - el.offsetWidth - 4;
+  const maxTop = window.innerHeight - el.offsetHeight - 4;
+  return {
+    left: Math.min(Math.max(4, left), Math.max(4, maxLeft)),
+    top: Math.min(Math.max(4, top), Math.max(4, maxTop)),
+  };
+}
+
 function showLauncher() {
   if (root || document.getElementById(LAUNCHER_ID)) return;
   const button = document.createElement('button');
@@ -50,8 +62,48 @@ function showLauncher() {
     cursor: 'pointer',
     font: '700 15px/1.2 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif',
     padding: '12px 18px',
+    touchAction: 'none',
   });
+
+  // 可拖动：按住拖走，位置存本地；拖动超过 4px 不算点击。
+  let moved = false;
+  let startX = 0;
+  let startY = 0;
+  let originLeft = 0;
+  let originTop = 0;
+  button.addEventListener('pointerdown', (event) => {
+    moved = false;
+    startX = event.clientX;
+    startY = event.clientY;
+    const rect = button.getBoundingClientRect();
+    originLeft = rect.left;
+    originTop = rect.top;
+    button.setPointerCapture(event.pointerId);
+  });
+  button.addEventListener('pointermove', (event) => {
+    if (!button.hasPointerCapture(event.pointerId)) return;
+    const dx = event.clientX - startX;
+    const dy = event.clientY - startY;
+    if (!moved && Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+    moved = true;
+    const pos = clampToViewport(originLeft + dx, originTop + dy, button);
+    button.style.left = `${pos.left}px`;
+    button.style.top = `${pos.top}px`;
+    button.style.right = 'auto';
+    button.style.bottom = 'auto';
+  });
+  button.addEventListener('pointerup', (event) => {
+    if (button.hasPointerCapture(event.pointerId)) button.releasePointerCapture(event.pointerId);
+    if (moved) {
+      const rect = button.getBoundingClientRect();
+      try {
+        localStorage.setItem(LAUNCHER_POS_KEY, JSON.stringify({ left: rect.left, top: rect.top }));
+      } catch { /* 存不了就算了，不影响使用 */ }
+    }
+  });
+
   button.addEventListener('click', () => {
+    if (moved) return; // 刚拖完，不当点击
     const url = new URL(window.location.href);
     url.searchParams.delete('gllue_shell');
     if (url.toString() !== window.location.href) {
@@ -60,6 +112,18 @@ function showLauncher() {
     void setShellEnabled(true);
   });
   document.body.appendChild(button);
+
+  // 恢复上次拖动的位置（没存过就保持默认右下角）。
+  try {
+    const saved = JSON.parse(localStorage.getItem(LAUNCHER_POS_KEY) || 'null') as { left?: number; top?: number } | null;
+    if (saved && typeof saved.left === 'number' && typeof saved.top === 'number') {
+      const pos = clampToViewport(saved.left, saved.top, button);
+      button.style.left = `${pos.left}px`;
+      button.style.top = `${pos.top}px`;
+      button.style.right = 'auto';
+      button.style.bottom = 'auto';
+    }
+  } catch { /* 存的格式坏了就用默认位置 */ }
 }
 
 async function shouldBypassShell() {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import apiMap from '../data/api-map.json';
-import type { ApiMapEntry, Candidate, ClientCompany, FacetFields, GlobalSearchResult, GllueDataModule, GllueExportSnapshot, GllueListResponse, JobOrder, KpiWorkflowSummary, ListFilters, MappingCandidate, MappingProject, MappingSearchInput, ModuleKey, PipelineSubmission, SavedSearch, TodoItem } from '../types/gllue';
+import type { ApiMapEntry, Candidate, ClientCompany, Consultant, ConsultantRecommendation, CurrentUser, FacetFields, GlobalSearchResult, GllueDataModule, GllueExportSnapshot, GllueListResponse, JobOrder, KpiWorkflowSummary, ListFilters, MappingCandidate, MappingProject, MappingSearchInput, ModuleKey, PipelineSubmission, SavedSearch, TodoItem } from '../types/gllue';
 import type { ResumeIdentity } from './resumeParser';
 import { matchResumeWithEnhance, upsertCandidateSummaries } from './enhanceApi';
 import { mockCandidates, mockClients, mockJobs } from './mockData';
@@ -779,6 +779,146 @@ function moduleToDataModule(module: ModuleKey): GllueDataModule {
   return 'candidate';
 }
 
+// ---- 主页"关注顾问"模块 ----
+
+type GllueTeam = { id?: number; name?: string; __name__?: string };
+type GllueUserRow = {
+  id: number;
+  chineseName?: string;
+  englishName?: string;
+  name?: string;
+  __name__?: string;
+  status?: { code?: string; value?: string } | string;
+  team?: GllueTeam | number;
+};
+
+function teamOf(value: GllueTeam | number | undefined): { teamId?: number; teamName?: string } {
+  if (value && typeof value === 'object') return { teamId: value.id, teamName: value.name || value.__name__ };
+  if (typeof value === 'number') return { teamId: value };
+  return {};
+}
+
+function userDisplayName(u: GllueUserRow) {
+  return textValue(u.chineseName) || textValue(u.englishName) || textValue(u.name) || textValue(u.__name__) || `用户 #${u.id}`;
+}
+
+function userActive(u: GllueUserRow) {
+  const code = typeof u.status === 'object' ? u.status?.code : u.status;
+  return String(code || '').toLowerCase() === 'active' || code === undefined; // 拿不到状态时不误杀
+}
+
+// 顾问列表（谷露用户），翻页拿全，只保留在职。
+async function getConsultants(): Promise<Consultant[]> {
+  const all = new Map<number, Consultant>();
+  for (let page = 1; page <= 6; page += 1) {
+    let rows: GllueUserRow[] = [];
+    try {
+      const response = await client.get('/rest/user/list', { params: { paginate_by: 50, page, ordering: 'chineseName' } });
+      rows = normalizeList<GllueUserRow>(response.data).list;
+    } catch {
+      break;
+    }
+    if (!rows.length) break;
+    rows.forEach((u) => all.set(u.id, { id: u.id, name: userDisplayName(u), active: userActive(u), ...teamOf(u.team) }));
+    if (rows.length < 50) break;
+  }
+  return Array.from(all.values())
+    .filter((c) => c.active)
+    .sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
+}
+
+// 当前登录用户 + 团队：谷露没有可用的 /rest/user/current，改用 owner__eq={{user.id}}
+// 过滤候选人（服务端解析 {{user.id}}），从返回行的 owner 读出当前用户 id 和 team。
+async function getCurrentUser(): Promise<CurrentUser> {
+  try {
+    const response = await client.get('/rest/candidate/list', {
+      params: { gql: 'owner__eq={{user.id}}', demandKeys: JSON.stringify(['owner']), paginate_by: 1, page: 1 },
+    });
+    const rows = normalizeList<{ owner?: { id?: number; team?: GllueTeam | number } }>(response.data).list;
+    const owner = rows[0]?.owner;
+    if (owner && typeof owner === 'object') {
+      return { id: owner.id, ...teamOf(owner.team) };
+    }
+  } catch {
+    // 拿不到就返回空，UI 退回“显示全部顾问”。
+  }
+  return {};
+}
+
+type CvsentEntry = { date?: string; dateAdded?: string; user?: number | { id?: number } };
+type RecommendationRow = {
+  id: number;
+  candidate?: {
+    id?: number;
+    chineseName?: string;
+    englishName?: string;
+    __name__?: string;
+    company?: { name?: string; __name__?: string } | string;
+    candidateexperience_set?: Array<{ title?: string; client?: { name?: string; __name__?: string } }>;
+  };
+  cvsent_set?: CvsentEntry[];
+  lastUpdateDate?: string;
+};
+
+const RECOMMENDATION_DEMAND_KEYS = JSON.stringify([
+  'candidate',
+  'candidate__company',
+  'candidate__candidateexperience_set',
+  'cvsent_set',
+  'cvsent_set__user',
+]);
+
+function isoDaysAgo(days: number) {
+  return localDateKey(new Date(Date.now() - days * 86400000));
+}
+
+function cvsentUserId(entry: CvsentEntry) {
+  return typeof entry.user === 'object' ? entry.user?.id : entry.user;
+}
+
+// 某顾问近 days 天推荐（cvsent）的人选。按该顾问自己的 cvsent 事件取最新日期。
+async function getRecommendationsForConsultant(consultant: Consultant, sinceIso: string, pageSize: number): Promise<ConsultantRecommendation[]> {
+  const gql = `cvsent_set__user__eq=${consultant.id}&cvsent_set__date__gte=${sinceIso}`;
+  let rows: RecommendationRow[] = [];
+  try {
+    const response = await client.get('/rest/jobsubmission/list', {
+      params: { gql, ordering: '-id', paginate_by: String(pageSize), page: '1', demandKeys: RECOMMENDATION_DEMAND_KEYS },
+    });
+    rows = normalizeList<RecommendationRow>(response.data).list;
+  } catch {
+    return [];
+  }
+  return rows.map((row) => {
+    const cand = row.candidate;
+    const myEvents = (row.cvsent_set || [])
+      .filter((entry) => cvsentUserId(entry) === consultant.id && (entry.date || entry.dateAdded))
+      .sort((a, b) => String(b.date || b.dateAdded).localeCompare(String(a.date || a.dateAdded)));
+    const event = myEvents[0] || row.cvsent_set?.[0];
+    const company = typeof cand?.company === 'object' ? cand.company?.name || cand.company?.__name__ : cand?.company;
+    return {
+      submissionId: row.id,
+      candidateId: cand?.id,
+      candidateName: textValue(cand?.chineseName || cand?.englishName || cand?.__name__, `候选人 #${cand?.id ?? row.id}`),
+      company: textValue(company, '公司未填写'),
+      title: textValue(cand?.candidateexperience_set?.[0]?.title, '职位未填写'),
+      date: String(event?.date || event?.dateAdded || row.lastUpdateDate || ''),
+      consultantId: consultant.id,
+      consultantName: consultant.name,
+    };
+  });
+}
+
+// 多个关注顾问：逐个查询后合并（gllue 的 __in 多值在 cvsent_set__user 上不生效，只能分开查），
+// 按时间倒序。近一个月 = 近 30 天滚动窗口。
+async function getConsultantRecommendations(consultants: Consultant[], days = 30, perConsultant = 30): Promise<ConsultantRecommendation[]> {
+  if (!consultants.length) return [];
+  const sinceIso = isoDaysAgo(days);
+  const lists = await Promise.all(consultants.map((c) => getRecommendationsForConsultant(c, sinceIso, perConsultant)));
+  return lists
+    .flat()
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
 export const gllueApi = {
   apiMap: map,
   getCandidates: (page = 1, pageSize = 10, filters?: Partial<ListFilters>) => getList<Candidate>('/rest/candidate/list', 'candidates', page, pageSize, mockCandidates, filters),
@@ -840,6 +980,9 @@ export const gllueApi = {
   getGlobalSearch,
   getMappingProject,
   exportReadonlySnapshot,
+  getConsultants,
+  getConsultantRecommendations,
+  getCurrentUser,
   getTodayCandidates: async (limit = 300) => {
     const today = localDateKey();
     const notedTodayContacts = new Map<number, Candidate>();

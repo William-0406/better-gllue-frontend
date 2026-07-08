@@ -3,6 +3,7 @@ import { Button, Card, Divider, Icon } from 'animal-island-ui';
 import { Bell, BriefcaseBusiness, CalendarCheck, Check, FileText, Inbox, KanbanSquare, Network, Plus, Search, Send, Sparkles, StickyNote, UserPlus } from 'lucide-react';
 import { EnhanceServicePanel } from '../components/EnhanceServicePanel';
 import { ResumeImportCheckModal } from '../components/ResumeImportCheckModal';
+import { ConsultantTracker } from '../components/ConsultantTracker';
 import { StatusTag } from '../components/StatusTag';
 import { useDashboardSummary } from '../services/useDashboardSummary';
 import type { Candidate, ModuleKey, PipelineSubmission } from '../types/gllue';
@@ -186,33 +187,24 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           </Button>
         </Card>
 
+        <Card className="workbench-action-card workbench-action-card--todo">
+          <div className="workbench-action-icon">
+            <Sparkles size={22} />
+          </div>
+          <div>
+            <span>敬请期待</span>
+            <strong>待定</strong>
+          </div>
+          <small>新模块规划中</small>
+        </Card>
+
         {/* mapping/脉脉 入口暂时隐藏（私有版，功能代码保留）。 */}
       </div>
 
       {/* 增强服务面板暂时隐藏（私有版，功能代码保留）。 */}
       {/* <EnhanceServicePanel /> */}
 
-      <Card className="api-preview-card">
-        <div className="section-heading">
-          <div>
-            <h2>快捷入口</h2>
-            <p>快速进入常用模块。</p>
-          </div>
-          <StatusTag tone="sky">常用</StatusTag>
-        </div>
-        <div className="quick-link-grid">
-          {quickLinks.map((link) => {
-            const Icon = link.icon;
-            return (
-              <button className="quick-link-card" key={link.label} onClick={() => openGllueHash(link.hash)}>
-                <Icon size={20} />
-                <span>{link.label}</span>
-                <small>{link.description}</small>
-              </button>
-            );
-          })}
-        </div>
-      </Card>
+      <ConsultantTracker />
 
       <Card className="api-preview-card">
         <div className="section-heading">
@@ -273,38 +265,22 @@ export function Dashboard({ onNavigate }: DashboardProps) {
       <Card className="api-preview-card">
         <div className="section-heading">
           <div>
-            <h2>最近记录</h2>
-            <p>最近更新的人才、公司和项目。</p>
+            <h2>快捷入口</h2>
+            <p>快速进入常用模块。</p>
           </div>
+          <StatusTag tone="sky">常用</StatusTag>
         </div>
-        <div className="quick-preview-grid">
-          <div>
-            <strong>人才</strong>
-            {summary.latest.candidates.slice(0, 4).map((item) => (
-              <button key={item.id} className="quick-preview-row" onClick={() => onNavigate('candidates')}>
-                <span>{textValue(item.chineseName || item.englishName, `候选人 #${item.id}`)}</span>
-                <small>{textValue(item.company?.name || item.company?.__name__, '未填写公司')}</small>
+        <div className="quick-link-grid">
+          {quickLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <button className="quick-link-card" key={link.label} onClick={() => openGllueHash(link.hash)}>
+                <Icon size={20} />
+                <span>{link.label}</span>
+                <small>{link.description}</small>
               </button>
-            ))}
-          </div>
-          <div>
-            <strong>公司</strong>
-            {summary.latest.clients.slice(0, 4).map((item) => (
-              <button key={item.id} className="quick-preview-row" onClick={() => onNavigate('clients')}>
-                <span>{textValue(item.name || item.company_name || item.__name__, `公司 #${item.id}`)}</span>
-                <small>{typeof item.city === 'object' ? item.city.name || item.city.__name__ : item.city || '城市未知'}</small>
-              </button>
-            ))}
-          </div>
-          <div>
-            <strong>项目</strong>
-            {summary.latest.jobs.slice(0, 4).map((item) => (
-              <button key={item.id} className="quick-preview-row" onClick={() => onNavigate('jobs')}>
-                <span>{textValue(item.jobTitle || item.__name__, `项目 #${item.id}`)}</span>
-                <small>{textValue(item.client?.name || item.client?.__name__, '客户公司未填写')}</small>
-              </button>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </Card>
       <Divider type="line-teal" />

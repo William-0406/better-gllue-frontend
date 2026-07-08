@@ -8,14 +8,42 @@ const MINIMIZED_KEY = 'gllueMaimaiPanelMinimized';
 const PANEL_WIDTH = 188;
 const DEFAULT_POSITION = { left: 8, top: 220 };
 
-type PanelMode = 'idle' | 'loading' | 'result' | 'unknown' | 'confirm' | 'creating' | 'created';
+type PanelMode = 'idle' | 'loading' | 'result' | 'unknown' | 'confirm' | 'creating' | 'created' | 'enriching';
 type PanelPosition = { left: number; top: number };
 
 let currentProfile: MaimaiProfile | null = null;
 let currentResult: CandidateMatchResult | null = null;
 let currentError = '';
 let currentMode: PanelMode = 'idle';
+let enrichStatus = '';
+let enrichPercent = 0;
 let lastFingerprint = '';
+// 用户在浮窗里手动改的姓名/手机/邮箱。脉脉抓取可能出错或缺失，允许手动覆盖。
+// 切换候选人（原始抓取指纹变化）时自动清空。lastFingerprint 始终按“原始抓取”计算，
+// 不受手动值影响，否则巡检会误判并把覆盖清掉。
+let manualName: string | null = null;
+let manualMobile: string | null = null;
+let manualEmail: string | null = null;
+
+function clearManualOverrides() {
+  manualName = null;
+  manualMobile = null;
+  manualEmail = null;
+}
+
+function hasManualOverrides() {
+  return Boolean(manualName || manualMobile || manualEmail);
+}
+
+// 把手动覆盖值叠到 profile 上（用于展示 / 查重 / 建档 / 补全）。
+function withManualName(profile: MaimaiProfile | null) {
+  if (!profile || !hasManualOverrides()) return profile;
+  const next = { ...profile };
+  if (manualName) next.name = manualName;
+  if (manualMobile) next.mobile = manualMobile;
+  if (manualEmail) next.email = manualEmail;
+  return next;
+}
 let debounceTimer: number | undefined;
 let panelPosition: PanelPosition = { ...DEFAULT_POSITION };
 let positionLoaded = false;
@@ -53,8 +81,9 @@ function isLikelyName(value: string | undefined) {
   if (!name || isNoiseLine(name)) return false;
   // 排除学校 / 城市 / 学历 / 性别 / 公司等明显不是姓名的词（避免把"湘潭大学"当名字），
   // 以及公开档案页左侧导航项（动态/招聘/主页等短词恰好是 2-4 个汉字）。
-  if (/大学|学院|学校|高中|中专|职业技|公司|集团|科技|有限|脉脉|登录|不限职位|好友|博士|硕士|本科|大专|MBA|EMBA|北京|上海|深圳|广州|杭州|成都|南京|武汉|苏州|西安|天津|重庆|男|女|返回|动态|招聘|聊天|通知|主页|品牌号|企业号|商业服务|点评|职位/.test(name)) return false;
-  // 中文名 2-4 字，或英文名（可带 1-2 个空格的姓）。
+  if (/大学|学院|学校|高中|中专|职业技|公司|集团|科技|有限|脉脉|登录|不限职位|好友|博士|硕士|本科|大专|MBA|EMBA|北京|上海|深圳|广州|杭州|成都|南京|武汉|苏州|西安|天津|重庆|男|女|返回|动态|招聘|聊天|通知|主页|品牌号|企业号|商业服务|点评|职位|重工|实业|控股|股份|地产|置业|传媒|网络|软件|智能|机器人|汽车|能源|医疗|制药|生物|物流|咨询|电子|通信|制造|银行|证券|保险|基金|已实名|活跃|看机会|行情|未完善|沟通|人才|储备|完善|在线|离线|刚刚|分钟前|小时前|天前/.test(name)) return false;
+  // 中文名 2-4 字，或英文名（可带 1-2 个空格的姓）。脉脉名字五花八门，不做过严限制；
+  // 读取不准时用户可在浮窗里手动改名。
   return /^[一-龥]{2,4}$/.test(name) || /^[A-Za-z][A-Za-z.]*(?: [A-Za-z.]+){0,2}$/.test(name);
 }
 
@@ -71,7 +100,15 @@ function recruitTalentSections() {
   // 抓取逻辑（实名/活跃标记定位姓名、日期行锚定工作经历）不变，不影响准确率。
   const path = window.location.pathname;
   if (!/\/ent\//.test(path) && !/recruit|talent/i.test(path)) return null;
-  const bodyText = blockText(document.body.innerText);
+  // 详情在右侧抽屉（.ant-drawer-body）里，只取抽屉内文本。绝不能用整个 document.body：
+  // 左侧搜索结果列表里有一堆候选人（每个都带"近X月活跃"），会污染姓名抓取，导致
+  // "名字取到列表里某人、工作经历取到抽屉里另一人"的错配。取可见且含"人才档案"的
+  // 最后一个抽屉（最近打开的那个）；没有抽屉时退回 document.body（兼容其它布局）。
+  const drawer = Array.from(document.querySelectorAll<HTMLElement>('.ant-drawer-body'))
+    .reverse()
+    .find((el) => el.offsetParent !== null && /人才档案/.test(el.innerText));
+  const scope: HTMLElement = drawer || document.body;
+  const bodyText = blockText(scope.innerText);
   const tabIndex = bodyText.indexOf('人才档案');
   if (tabIndex < 0) return null;
 
@@ -115,22 +152,40 @@ function profileDetailSections() {
 }
 
 function pickName(headerText: string) {
-  // 优先：紧挨"实名/活跃/在线"标记前的名字（最可能是档案主人，支持中英文名）。
-  const strong = Array.from(headerText.matchAll(/([一-龥]{2,4}|[A-Za-z][A-Za-z.]*(?: [A-Za-z.]+){0,2})\s*(?:已实名|未实名|实名|今日活跃|近\d[^ \n]*活跃|在线)/g))
-    .map((match) => text(match[1]))
-    .filter(isLikelyName);
-  if (strong.length) return strong[strong.length - 1];
-  // 兜底：单独成行的名字。只在最靠近“人才档案”的尾段里找（档案主人的名字就在这附近），
-  // 避免把页面上方导航、或“相关推荐/访客”里别人的名字误当成档案主人。
-  const tail = headerText.slice(-200);
-  const loose = Array.from(tail.matchAll(/(?:^|\n)\s*([一-龥]{2,4}|[A-Za-z][A-Za-z.]*(?: [A-Za-z.]+){0,2})\s*(?:\n|$)/g))
-    .map((match) => text(match[1]))
-    .filter(isLikelyName);
-  return loose[loose.length - 1];
+  const lines = headerText.split('\n').map(text).filter(Boolean);
+  // 人才银行等布局里，列表和详情在同一容器，520 字回看窗口会扫进左侧列表尾部，
+  // 列表里的公司名（如"嘉和重工"）会被当成人名。详情头的姓名紧邻"已实名/近X周
+  // 活跃/正在看机会/XX岁"这类徽章行，且这些徽章行在窗口内最后一次出现的一定是
+  // 详情自己的——先锚定最后一个徽章行、从它向上找最近的像姓名的行，找不到再退回
+  // "第一个像姓名的行"。
+  let anchor = -1;
+  lines.forEach((line, index) => {
+    if (/已实名|活跃|看机会|\d{1,2}岁/.test(line)) anchor = index;
+  });
+  for (let index = anchor; index >= 0; index -= 1) {
+    if (isLikelyName(lines[index])) return lines[index];
+  }
+  const named = lines.filter(isLikelyName);
+  if (named.length) return named[0];
+  // 极端兜底：整段里第一个中/英文名 token（英文名要求大写开头）。
+  const token = headerText.match(/[一-龥]{2,4}|[A-Z][A-Za-z.]*(?: [A-Za-z.]+){0,2}/g)?.map(text).find(isLikelyName);
+  return token;
 }
 
 function pickAge(headerText: string) {
   return lastMatch(headerText, /(?:^|\s|\|)(\d{2}岁)(?:\s|\||$)/g);
+}
+
+// 脉脉个别场景（已交换联系方式/已实名等）会在详情里露出手机号/邮箱，能抓就抓。
+// 只认完整的 11 位大陆手机号，带 * 的打码号码不要。
+function pickMobile(bodyText: string) {
+  const match = bodyText.match(/(?<!\d)1[3-9]\d{9}(?!\d)/);
+  return match ? match[0] : undefined;
+}
+
+function pickEmail(bodyText: string) {
+  const match = bodyText.match(/[A-Za-z0-9][A-Za-z0-9._%+-]*@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/);
+  return match ? match[0] : undefined;
 }
 
 function pickEducation(headerText: string) {
@@ -221,8 +276,10 @@ export function extractMaimaiProfileFromPage(): MaimaiProfile | null {
     company: firstExperience.company,
     title: firstExperience.title,
     experiences,
-    education: pickSchoolEducation(sections.bodyText, text(pickEducation(sections.headerText))),
+    education: pickSchoolEducation(sections.bodyText || '', text(pickEducation(sections.headerText))),
     age: text(pickAge(sections.headerText)),
+    mobile: pickMobile(sections.bodyText || ''),
+    email: pickEmail(sections.bodyText || ''),
     sourceUrl: window.location.href,
   };
 }
@@ -311,13 +368,6 @@ function savePanelPosition() {
   }
 }
 
-function resetPanelPosition() {
-  panelPosition = { ...DEFAULT_POSITION };
-  savePanelPosition();
-  const panel = document.getElementById(PANEL_ID);
-  if (panel) applyPanelPosition(panel);
-}
-
 function saveMinimizedState() {
   try {
     void chrome.storage.local.set({ [MINIMIZED_KEY]: isMinimized });
@@ -329,6 +379,20 @@ function saveMinimizedState() {
 function setMinimized(next: boolean) {
   isMinimized = next;
   saveMinimizedState();
+  renderPanel();
+}
+
+// 重置面板数据：清掉当前查重结果/状态，按当前页面重新抓取一次，回到"待查重"初始态。
+// （面板位置不再由这个按钮重置——改成重置数据。）
+function resetPanelData() {
+  currentResult = null;
+  currentError = '';
+  currentMode = 'idle';
+  capturedLinkCache = { key: '', link: '' };
+  clearManualOverrides();
+  currentProfile = extractMaimaiProfileFromPage();
+  lastFingerprint = fingerprint(currentProfile);
+  lastRenderedHtml = '';
   renderPanel();
 }
 
@@ -469,6 +533,19 @@ function ensureStyle() {
     .gllue-mm-field small { color: #8a765b; font-size: 10px; font-weight: 900; }
     .gllue-mm-field b { margin-top: 1px; color: #4f3e2b; font-size: 12px; }
     .gllue-mm-field.is-wide { grid-column: auto; }
+    .gllue-mm-nameinput {
+      width: 100%;
+      margin-top: 2px;
+      padding: 2px 4px;
+      border: 1px solid rgba(114, 93, 66, 0.25);
+      border-radius: 6px;
+      background: #fffef8;
+      color: #4f3e2b;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+    }
+    .gllue-mm-nameinput:focus { outline: none; border-color: #76bd83; }
     .gllue-mm-status {
       padding: 7px 8px;
       border-radius: 11px;
@@ -479,6 +556,8 @@ function ensureStyle() {
     }
     .gllue-mm-status.is-unknown { color: #9b4050; background: #ffe5d9; }
     .gllue-mm-status.is-empty { color: #6f5a39; background: #f2e6c8; }
+    .gllue-mm-progress { margin-top: 6px; height: 6px; border-radius: 4px; background: #eadfc6; overflow: hidden; }
+    .gllue-mm-progress i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #76bd83, #4d9e63); border-radius: 4px; transition: width .45s ease; }
     .gllue-mm-match {
       display: grid;
       gap: 6px;
@@ -579,14 +658,21 @@ function field(label: string, value: string | undefined, wide = false) {
   return `<div class="gllue-mm-field${wide ? ' is-wide' : ''}"><small>${escapeHtml(label)}</small><b>${escapeHtml(value || '未读取到')}</b></div>`;
 }
 
+// 可编辑输入框字段：抓取可能出错或缺失（姓名千奇百怪、联系方式多数时候不露出），
+// 允许顾问手动改。改完（回车或失焦）即生效，用于查重、建档和补全。
+function editableField(label: string, key: string, value: string | undefined, wide = false) {
+  return `<div class="gllue-mm-field gllue-mm-namefield${wide ? ' is-wide' : ''}"><small>${escapeHtml(label)}</small>`
+    + `<input class="gllue-mm-nameinput" data-gllue-input="${escapeHtml(key)}" type="text" value="${escapeHtml(value || '')}" placeholder="未读取到，可手动填写" /></div>`;
+}
+
 function renderFields(profile: MaimaiProfile | null) {
   const experiences = (profile?.experiences?.length ? profile.experiences : [{ company: profile?.company, title: profile?.title }])
     .filter((item) => item.company || item.title)
     .slice(0, 3);
   return `
     <div class="gllue-mm-fields">
-      ${field('姓名', profile?.name)}
-      ${field('年龄', profile?.age)}
+      ${editableField('姓名（可改）', 'name', profile?.name)}
+      ${editableField('联系方式（可改）', 'contact', [profile?.mobile, profile?.email].filter(Boolean).join(' '))}
       ${field('学历', profile?.education)}
       ${experiences.length ? experiences.map((item, index) => field(`工作 ${index + 1}`, [item.company, item.title].filter(Boolean).join(' / '), true)).join('') : field('最近工作', undefined, true)}
     </div>
@@ -627,7 +713,10 @@ function resultBody() {
         ${candidate.matchedExperience ? `<small>${escapeHtml(`脉脉：${candidate.matchedExperience}`)}</small>` : ''}
         <small>最近更新：${escapeHtml(dateOnly(candidate.lastUpdateDate))}　顾问：${escapeHtml(candidate.consultant || '未记录')}</small>
         <p class="gllue-mm-note">${escapeHtml(candidate.recentNoteText || '暂无备注正文')}</p>
-        <div class="gllue-mm-actions"><button type="button" data-gllue-candidate="${candidate.id}">打开谷露人才</button></div>
+        <div class="gllue-mm-actions">
+          <button type="button" data-gllue-candidate="${candidate.id}">打开谷露人才</button>
+          <button type="button" data-gllue-enrich="${candidate.id}">拉简历补全</button>
+        </div>
       </div>`;
       })
       .join('');
@@ -664,8 +753,13 @@ function resultBody() {
   if (currentMode === 'creating') {
     return `${renderFields(profile)}<div class="gllue-mm-status is-empty">正在谷露新建人才...</div>`;
   }
+  if (currentMode === 'enriching') {
+    const percent = Math.max(0, Math.min(100, enrichPercent));
+    return `${renderFields(profile)}<div class="gllue-mm-status is-empty">${escapeHtml(enrichStatus || '正在拉取脉脉简历（附件简历优先）并解析补全…')}`
+      + `<div class="gllue-mm-progress"><i style="width:${percent}%"></i></div></div>`;
+  }
   if (currentMode === 'created') {
-    return `${renderFields(profile)}<div class="gllue-mm-status">已在谷露新建人才，正在打开人才页补全资料。</div>`;
+    return `${renderFields(profile)}<div class="gllue-mm-status">已把简历解析补全到谷露人才，正在打开人才页。</div>`;
   }
   return `
     ${renderFields(currentProfile)}
@@ -701,6 +795,7 @@ function renderPanel() {
     </div>
     <button class="gllue-mm-collapse" type="button" title="收起">×</button>
     <button class="gllue-mm-reset" type="button">重置</button>
+    <button class="gllue-mm-sniff" type="button" title="临时抓包：装网络嗅探器，用来摸脉脉下载简历接口">🔍</button>
     <div class="gllue-mm-body">${resultBody()}</div>
   `;
   }
@@ -733,13 +828,61 @@ function wirePanelEvents(panel: HTMLElement) {
   panel.querySelector('.gllue-mm-reset')?.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    resetPanelPosition();
+    resetPanelData();
+  });
+  panel.querySelector('.gllue-mm-sniff')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    // 临时调试：让 background 往主世界注入网络嗅探器（再点一次切换悬浮层显隐）。
+    chrome.runtime.sendMessage({ type: 'MAIMAI_START_SNIFFER' }).catch(() => undefined);
   });
   panel.querySelector('.gllue-mm-check')?.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
     handleManualCheck();
   });
+  // 可编辑字段（姓名/手机/邮箱）：回车或失焦提交。改值不重算 lastFingerprint
+  // （那按原始抓取），所以巡检不会因为手动改而误判换人、清掉结果。
+  const wireEditable = (key: 'name' | 'mobile' | 'email', apply: (value: string) => void) => {
+    const input = panel.querySelector(`[data-gllue-input="${key}"]`) as HTMLInputElement | null;
+    if (!input) return;
+    const commit = () => {
+      const value = input.value.trim();
+      apply(value);
+      if (currentProfile) currentProfile = { ...currentProfile, [key]: value };
+      // 同步到查重结果里展示的 profile
+      if (currentResult) currentResult = { ...currentResult, profile: { ...currentResult.profile, [key]: value } };
+      lastRenderedHtml = '';
+      renderPanel();
+    };
+    input.addEventListener('change', commit);
+    input.addEventListener('keydown', (event) => {
+      if ((event as KeyboardEvent).key === 'Enter') { event.preventDefault(); input.blur(); }
+    });
+    // 输入时阻止面板的点击/重渲染打断编辑
+    input.addEventListener('click', (event) => event.stopPropagation());
+  };
+  wireEditable('name', (value) => { manualName = value || null; });
+  // 联系方式一栏两用：从输入里自动识别手机号和邮箱（可同时填，空格/逗号分隔均可）。
+  const contactInput = panel.querySelector('[data-gllue-input="contact"]') as HTMLInputElement | null;
+  if (contactInput) {
+    const commit = () => {
+      const value = contactInput.value.trim();
+      const mobile = pickMobile(value) || '';
+      const email = pickEmail(value) || '';
+      manualMobile = mobile || null;
+      manualEmail = email || null;
+      if (currentProfile) currentProfile = { ...currentProfile, mobile, email };
+      if (currentResult) currentResult = { ...currentResult, profile: { ...currentResult.profile, mobile, email } };
+      lastRenderedHtml = '';
+      renderPanel();
+    };
+    contactInput.addEventListener('change', commit);
+    contactInput.addEventListener('keydown', (event) => {
+      if ((event as KeyboardEvent).key === 'Enter') { event.preventDefault(); contactInput.blur(); }
+    });
+    contactInput.addEventListener('click', (event) => event.stopPropagation());
+  }
   panel.querySelector('.gllue-mm-create')?.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -769,6 +912,15 @@ function wirePanelEvents(panel: HTMLElement) {
       if (!id) return;
       const url = `${GLLUE_BASE}?gllue_shell=off#candidate/detail?id=${id}`;
       chrome.runtime.sendMessage({ type: 'GLLUE_SHELL_OPEN_ORIGINAL', url }).catch(() => window.open(url, '_blank', 'noopener,noreferrer'));
+    });
+  });
+  // 查到在库：把脉脉在线简历解析后回填到该已有人才。
+  panel.querySelectorAll('[data-gllue-enrich]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const id = (event.currentTarget as HTMLElement).dataset.gllueEnrich;
+      if (id) void handleEnrichResume(Number(id), true);
     });
   });
   const handle = (panel.querySelector('.gllue-mm-drag') || panel.querySelector('.gllue-mm-orb')) as HTMLElement | null;
@@ -851,50 +1003,84 @@ async function handleCreateCandidate() {
   currentMode = 'creating';
   lastRenderedHtml = '';
   renderPanel();
+  let newId: number | undefined;
   try {
     const response = await chrome.runtime.sendMessage({ type: 'MAIMAI_CREATE_CANDIDATE', profile }) as { ok?: boolean; id?: number; url?: string; error?: string };
-    if (response?.ok && response.url) {
-      currentMode = 'created';
-      lastRenderedHtml = '';
-      renderPanel();
-      // 打开新建人才的谷露页，让顾问补全备注/教育等（原生页写操作更可靠）。
-      chrome.runtime.sendMessage({ type: 'GLLUE_SHELL_OPEN_ORIGINAL', url: response.url }).catch(() => window.open(response.url, '_blank', 'noopener,noreferrer'));
+    if (response?.ok && response.id) {
+      newId = response.id;
     } else {
       currentMode = 'unknown';
       currentError = response?.error || '建档失败，请回谷露手动新建。';
       lastRenderedHtml = '';
       renderPanel();
+      return;
     }
   } catch (error) {
     currentMode = 'unknown';
     currentError = error instanceof Error ? error.message : '建档失败，请回谷露手动新建。';
     lastRenderedHtml = '';
     renderPanel();
+    return;
+  }
+  // 建档成功 → 自动串入「拉脉脉在线简历 → 解析 → 回填」。补全失败也已建档，照常打开人才页。
+  if (newId === undefined) return;
+  await handleEnrichResume(newId, true);
+}
+
+// 拉脉脉在线简历、上传谷露解析、回填到指定人才 id。查无在库（建档后）和查到在库都走这里。
+async function handleEnrichResume(candidateId: number, openAfter: boolean) {
+  const profile = currentProfile;
+  if (!profile) return;
+  currentMode = 'enriching';
+  enrichStatus = '正在拉取脉脉简历（附件简历优先）并解析补全…';
+  enrichPercent = 3;
+  lastRenderedHtml = '';
+  renderPanel();
+  let ok = false;
+  let errText = '';
+  try {
+    const response = await chrome.runtime.sendMessage({ type: 'MAIMAI_ENRICH_RESUME', profile, candidateId }) as { ok?: boolean; filled?: number; error?: string };
+    ok = Boolean(response?.ok);
+    errText = response?.error || '';
+  } catch (error) {
+    errText = error instanceof Error ? error.message : '简历补全失败。';
+  }
+  if (ok) {
+    currentMode = 'created';
+  } else {
+    currentMode = 'unknown';
+    currentError = `简历补全未成功：${errText} 人才已在谷露，可打开后手动上传解析。`;
+  }
+  lastRenderedHtml = '';
+  renderPanel();
+  if (openAfter) {
+    const url = `${GLLUE_BASE}?gllue_shell=off#candidate/detail?id=${candidateId}`;
+    chrome.runtime.sendMessage({ type: 'GLLUE_SHELL_OPEN_ORIGINAL', url }).catch(() => window.open(url, '_blank', 'noopener,noreferrer'));
   }
 }
 
 function handleManualCheck() {
-  const profile = extractMaimaiProfileFromPage();
-  if (!profile || !hasWorkSignal(profile)) {
-    currentProfile = profile;
+  const raw = extractMaimaiProfileFromPage();
+  if (!raw || !hasWorkSignal(raw)) {
+    currentProfile = withManualName(raw);
     currentMode = 'unknown';
     currentError = '未读取到可查重的公司和 title，请先点开脉脉人才详情。';
     currentResult = null;
     renderPanel();
     return;
   }
+  // 指纹永远按"页面原样抓取"（不含手动名/dstu 链接）计算，避免巡检误判换人清掉结果。
+  lastFingerprint = fingerprint(raw);
+  const profile = withManualName(raw)!;
   currentProfile = profile;
-  // 指纹永远按"页面原样抓取"计算：后台巡检重抓的 profile 不带截获的 dstu 链接，
-  // 若这里换成带链接的指纹，巡检会误判"换人了"而把查重结果清掉。
-  lastFingerprint = fingerprint(profile);
   currentMode = 'loading';
   currentResult = null;
   currentError = '';
   renderPanel();
   void (async () => {
     const withLink = await ensureProfileLink(profile);
-    currentProfile = withLink;
-    await checkProfile(withLink);
+    currentProfile = withManualName(withLink);
+    await checkProfile(withManualName(withLink)!);
   })();
 }
 
@@ -903,17 +1089,35 @@ function scheduleCheck() {
   debounceTimer = window.setTimeout(() => {
     if (dragging) return;
     const profile = extractMaimaiProfileFromPage();
+    // 指纹按"原始抓取"（不含手动名）计算，用于检测是否换了候选人。
     const nextFingerprint = fingerprint(profile);
     if (nextFingerprint !== lastFingerprint) {
+      // 换人/换页：清掉手动改的姓名/手机/邮箱，重新以原始抓取为准。
       lastFingerprint = nextFingerprint;
+      clearManualOverrides();
       currentProfile = profile;
       currentResult = null;
       currentError = '';
       currentMode = 'idle';
+    } else if (hasManualOverrides()) {
+      // 同一候选人：保留手动覆盖。
+      currentProfile = withManualName(profile);
     }
     renderPanel();
   }, 700);
 }
+
+// 简历补全的阶段进度：background 每完成一步推一条 MAIMAI_ENRICH_PROGRESS，
+// 更新浮窗里的进度条和状态文字。只在补全进行中响应，避免过期消息干扰其它状态。
+chrome.runtime.onMessage.addListener((rawMessage) => {
+  const message = rawMessage as { type?: string; percent?: number; text?: string } | undefined;
+  if (message?.type === 'MAIMAI_ENRICH_PROGRESS' && currentMode === 'enriching') {
+    enrichPercent = typeof message.percent === 'number' ? message.percent : enrichPercent;
+    if (message.text) enrichStatus = message.text;
+    lastRenderedHtml = '';
+    renderPanel();
+  }
+});
 
 void loadPanelPosition().then(scheduleCheck);
 // 面板自己的 DOM 变动不算"页面变化"，否则渲染→观察到变动→再渲染会自激循环。

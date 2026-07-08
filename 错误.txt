@@ -1,0 +1,8 @@
+src/extension/background.ts(919,68): error TS2339: Property 'mobile' does not exist on type 'MaimaiProfile'.
+src/extension/background.ts(920,66): error TS2339: Property 'email' does not exist on type 'MaimaiProfile'.
+src/extension/background.ts(1052,25): error TS2339: Property 'mobile' does not exist on type 'MaimaiProfile'.
+src/extension/background.ts(1052,69): error TS2339: Property 'mobile' does not exist on type 'MaimaiProfile'.
+src/extension/background.ts(1053,25): error TS2339: Property 'email' does not exist on type 'MaimaiProfile'.
+src/extension/background.ts(1053,67): error TS2339: Property 'email' does not exist on type 'MaimaiProfile'.
+src/extension/background.ts(1195,37): error TS2339: Property 'mobile' does not exist on type 'MaimaiProfile'.
+src/extension/background.ts(1196,35): error TS2339: Property 'email' does not exist on type 'MaimaiProfile'.

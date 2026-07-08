@@ -38,6 +38,16 @@ Thumbs.db
 src/data/system-structure.json
 交接手册.md
 推送GitHub操作步骤.md
+推送公开版-GitHub.ps1
+本轮交接.md
+本轮交接-*.md
+updater.ps1
+一键安装更新.bat
+发版-推送更新.ps1
+查看安装情况.ps1
+gllue-extension-*.zip
+安装说明.txt
+更新说明.txt
 Edge插件安装教程.txt
 docs/extension-install.md
 新手上手指南.html

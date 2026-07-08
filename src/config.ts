@@ -11,3 +11,10 @@ export const GLLUE_BASE = `${GLLUE_ORIGIN}/crm`;
 
 const enhanceHost = (env.VITE_ENHANCE_HOST || '').trim();
 export const ENHANCE_BASE_URL = enhanceHost ? `http://${enhanceHost}` : '';
+
+// 安装签到上报（内部版专用）：插件每天往 Gitee 私库写一条「谁在用哪个版本」。
+// 令牌绝不写进代码，构建时从 .env.local 注入；不配置则完全不上报（公开版默认如此）。
+export const REPORT_GITEE_OWNER = (env.VITE_REPORT_GITEE_OWNER || '').trim();
+export const REPORT_GITEE_REPO = (env.VITE_REPORT_GITEE_REPO || '').trim();
+export const REPORT_GITEE_TOKEN = (env.VITE_REPORT_GITEE_TOKEN || '').trim();
+export const REPORT_GITEE_BRANCH = (env.VITE_REPORT_GITEE_BRANCH || '').trim() || 'master';
