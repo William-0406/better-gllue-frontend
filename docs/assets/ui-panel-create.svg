@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 470" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif">
+  <rect width="820" height="470" fill="#f2f4f5"/>
+
+  <!-- 左：建档确认 -->
+  <g transform="translate(20,18)">
+    <rect width="360" height="432" rx="18" fill="#fffbee" stroke="#e8dcc0"/>
+    <rect width="360" height="5" rx="2.5" fill="#76bd83"/>
+    <rect x="18" y="20" width="34" height="34" rx="10" fill="#76bd83"/>
+    <text x="35" y="43" font-size="16" font-weight="800" fill="#fff8df" text-anchor="middle">查</text>
+    <text x="62" y="36" font-size="15" font-weight="800" fill="#5f4b33">查 张三</text>
+    <text x="62" y="53" font-size="11" font-weight="700" fill="#7a664b">示例科技 / 高级产品经理</text>
+
+    <rect x="18" y="70" width="324" height="46" rx="10" fill="#f2e6c8"/>
+    <text x="30" y="89" font-size="11" font-weight="700" fill="#6f5a39">未发现明显在库记录，已检查 3 段工作经历。</text>
+    <text x="30" y="106" font-size="11" font-weight="700" fill="#6f5a39">将按以下内容新建人才，确认无误后创建：</text>
+
+    <g transform="translate(18,128)">
+      <rect width="324" height="180" rx="10" fill="#fff8df"/>
+      <g font-size="10" font-weight="900" fill="#8a765b">
+        <text x="14" y="24">姓名</text>
+        <text x="14" y="68">公司 / 职位</text>
+        <text x="14" y="112">学历</text>
+        <text x="14" y="156">脉脉链接</text>
+      </g>
+      <g font-size="12" font-weight="700" fill="#4f3e2b">
+        <text x="14" y="42">张三</text>
+        <text x="14" y="86">示例科技 / 高级产品经理</text>
+        <text x="14" y="130">示例大学 · 本科</text>
+        <text x="14" y="174">maimai.cn/profile/detail?dstu=…</text>
+      </g>
+    </g>
+
+    <rect x="18" y="326" width="150" height="40" rx="12" fill="#f2e6c8"/>
+    <text x="93" y="351" font-size="13" font-weight="800" fill="#5f4b33" text-anchor="middle">取消</text>
+    <rect x="192" y="326" width="150" height="40" rx="12" fill="#e0913c"/>
+    <text x="267" y="351" font-size="13" font-weight="800" fill="#fffaf0" text-anchor="middle">确认创建</text>
+
+    <text x="180" y="400" font-size="11" fill="#b3a184" text-anchor="middle">落库前先预览要写入的字段，</text>
+    <text x="180" y="418" font-size="11" fill="#b3a184" text-anchor="middle">确认后才真正创建，避免误建脏数据。</text>
+  </g>
+
+  <!-- 右：简历补全进行中 -->
+  <g transform="translate(440,18)">
+    <rect width="360" height="432" rx="18" fill="#fffbee" stroke="#e8dcc0"/>
+    <rect width="360" height="5" rx="2.5" fill="#76bd83"/>
+    <rect x="18" y="20" width="34" height="34" rx="10" fill="#76bd83"/>
+    <text x="35" y="43" font-size="16" font-weight="800" fill="#fff8df" text-anchor="middle">查</text>
+    <text x="62" y="36" font-size="15" font-weight="800" fill="#5f4b33">查 张三</text>
+    <text x="62" y="53" font-size="11" font-weight="700" fill="#7a664b">示例科技 / 高级产品经理</text>
+
+    <rect x="18" y="70" width="324" height="76" rx="10" fill="#f2e6c8"/>
+    <text x="30" y="92" font-size="11" font-weight="700" fill="#6f5a39">正在下载附件简历并上传谷露解析…</text>
+    <rect x="30" y="106" width="300" height="8" rx="4" fill="#eadfc6"/>
+    <rect x="30" y="106" width="195" height="8" rx="4" fill="#76bd83"/>
+    <text x="30" y="134" font-size="10" font-weight="700" fill="#8a765b">65% · 附件简历优先，图片版自动改用在线简历</text>
+
+    <g transform="translate(18,162)">
+      <rect width="324" height="150" rx="10" fill="#ffffff" opacity="0.7"/>
+      <text x="14" y="26" font-size="12" font-weight="800" fill="#4f3e2b">补全进度（每一步实时可见）</text>
+      <g font-size="11" font-weight="700">
+        <text x="14" y="52" fill="#267465">✓ 已读取在库记录与附件列表</text>
+        <text x="14" y="76" fill="#267465">✓ 已截获附件简历下载地址</text>
+        <text x="14" y="100" fill="#6f5a39">● 上传谷露解析中…</text>
+        <text x="14" y="124" fill="#b3a184">○ 合并回填（只补不覆盖）</text>
+      </g>
+    </g>
+
+    <rect x="18" y="326" width="324" height="30" rx="10" fill="#d7f4e9"/>
+    <text x="30" y="346" font-size="11" font-weight="800" fill="#267465">完成后自动打开谷露人才页复核。</text>
+
+    <text x="180" y="400" font-size="11" fill="#b3a184" text-anchor="middle">原有附件、经历描述一律保留；</text>
+    <text x="180" y="418" font-size="11" fill="#b3a184" text-anchor="middle">新经历去重后追加，空字段才用简历内容补。</text>
+  </g>
+</svg>

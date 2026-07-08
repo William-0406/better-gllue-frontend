@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 470" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif">
+  <rect width="400" height="470" fill="#f2f4f5"/>
+  <!-- 面板 -->
+  <g transform="translate(20,18)">
+    <rect width="360" height="432" rx="18" fill="#fffbee" stroke="#e8dcc0"/>
+    <rect width="360" height="5" rx="2.5" fill="#76bd83"/>
+
+    <!-- 头部 -->
+    <rect x="18" y="20" width="34" height="34" rx="10" fill="#76bd83"/>
+    <text x="35" y="43" font-size="16" font-weight="800" fill="#fff8df" text-anchor="middle">查</text>
+    <text x="62" y="36" font-size="15" font-weight="800" fill="#5f4b33">查 张三</text>
+    <text x="62" y="53" font-size="11" font-weight="700" fill="#7a664b">示例科技 / 高级产品经理</text>
+    <rect x="258" y="22" width="46" height="24" rx="12" fill="#f2e6c8"/>
+    <text x="281" y="38" font-size="11" font-weight="800" fill="#7a664b" text-anchor="middle">重置</text>
+    <rect x="312" y="22" width="28" height="24" rx="12" fill="#f2e6c8"/>
+    <text x="326" y="39" font-size="13" font-weight="800" fill="#7a664b" text-anchor="middle">×</text>
+
+    <!-- 字段：姓名 / 联系方式（可编辑输入框） -->
+    <g transform="translate(18,72)">
+      <rect width="324" height="52" rx="10" fill="#ffffff" opacity="0.7"/>
+      <text x="12" y="18" font-size="10" font-weight="900" fill="#8a765b">姓名（可改）</text>
+      <rect x="10" y="24" width="150" height="22" rx="6" fill="#fffef8" stroke="#dccfae"/>
+      <text x="20" y="40" font-size="12" fill="#4f3e2b">张三</text>
+    </g>
+    <g transform="translate(18,132)">
+      <rect width="324" height="52" rx="10" fill="#ffffff" opacity="0.7"/>
+      <text x="12" y="18" font-size="10" font-weight="900" fill="#8a765b">联系方式（可改）</text>
+      <rect x="10" y="24" width="304" height="22" rx="6" fill="#fffef8" stroke="#dccfae"/>
+      <text x="20" y="40" font-size="12" fill="#4f3e2b">138****0000 · zhang@example.com</text>
+    </g>
+
+    <!-- 字段：学历 / 工作 -->
+    <g transform="translate(18,192)">
+      <rect width="157" height="48" rx="10" fill="#ffffff" opacity="0.7"/>
+      <text x="12" y="18" font-size="10" font-weight="900" fill="#8a765b">学历</text>
+      <text x="12" y="37" font-size="12" font-weight="700" fill="#4f3e2b">示例大学 · 本科</text>
+    </g>
+    <g transform="translate(185,192)">
+      <rect width="157" height="48" rx="10" fill="#ffffff" opacity="0.7"/>
+      <text x="12" y="18" font-size="10" font-weight="900" fill="#8a765b">工作 1</text>
+      <text x="12" y="37" font-size="12" font-weight="700" fill="#4f3e2b">示例科技 / 产品经理</text>
+    </g>
+    <g transform="translate(18,248)">
+      <rect width="324" height="48" rx="10" fill="#ffffff" opacity="0.7"/>
+      <text x="12" y="18" font-size="10" font-weight="900" fill="#8a765b">工作 2</text>
+      <text x="12" y="37" font-size="12" font-weight="700" fill="#4f3e2b">样例集团 / 产品专员</text>
+    </g>
+
+    <!-- 主按钮 -->
+    <rect x="18" y="312" width="324" height="44" rx="14" fill="#76bd83"/>
+    <text x="180" y="340" font-size="15" font-weight="800" fill="#fff8df" text-anchor="middle">查谷露在库</text>
+
+    <!-- 状态提示 -->
+    <rect x="18" y="368" width="324" height="44" rx="10" fill="#f2e6c8"/>
+    <text x="30" y="386" font-size="11" font-weight="700" fill="#6f5a39">按姓名 + 经历/学校分级查重</text>
+    <text x="30" y="403" font-size="11" font-weight="700" fill="#6f5a39">（强命中 / 疑似 / 同名）。</text>
+  </g>
+</svg>

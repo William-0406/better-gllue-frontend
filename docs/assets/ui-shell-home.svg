@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1060" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif">
+  <rect width="1200" height="1060" fill="#faf3e3"/>
+
+  <!-- 顶栏 -->
+  <rect width="1200" height="96" fill="#fdf8ea"/>
+  <rect x="28" y="22" width="52" height="52" rx="16" fill="#5fbfa0"/>
+  <circle cx="54" cy="44" r="12" fill="#fff"/>
+  <circle cx="54" cy="44" r="5" fill="#3c8a72"/>
+  <text x="96" y="46" font-size="20" font-weight="800" fill="#5f4b33">谷露岛屿工作台</text>
+  <text x="96" y="70" font-size="13" fill="#9b8767">人才 · 公司 · 项目</text>
+
+  <g font-size="15" font-weight="700">
+    <rect x="470" y="28" width="86" height="40" rx="20" fill="#fbf0cf"/>
+    <text x="513" y="53" fill="#5f4b33" text-anchor="middle">首页</text>
+    <text x="605" y="53" fill="#8a765b" text-anchor="middle">人才</text>
+    <text x="695" y="53" fill="#8a765b" text-anchor="middle">公司</text>
+    <text x="785" y="53" fill="#8a765b" text-anchor="middle">项目</text>
+  </g>
+  <rect x="900" y="28" width="110" height="40" rx="20" fill="#ffffff" stroke="#e4d7ba"/>
+  <text x="955" y="53" font-size="14" font-weight="700" fill="#6b573b" text-anchor="middle">↺ 恢复谷露</text>
+  <rect x="1028" y="14" width="150" height="68" rx="14" fill="#ffffff" stroke="#e4d7ba"/>
+  <text x="1044" y="38" font-size="11" font-weight="800" fill="#76bd83">FRIDAY</text>
+  <text x="1044" y="64" font-size="12" font-weight="700" fill="#8a765b">7月10日</text>
+  <text x="1164" y="57" font-size="21" font-weight="800" fill="#5f4b33" text-anchor="end">15:25</text>
+
+  <!-- 简历推荐卡片 -->
+  <g transform="translate(60,130)">
+    <rect width="520" height="420" rx="18" fill="#fffbee"/>
+    <rect width="520" height="8" rx="4" fill="#5fbfa0"/>
+    <text x="28" y="52" font-size="20" font-weight="800" fill="#5f4b33">简历推荐</text>
+    <text x="128" y="56" font-size="30" font-weight="800" fill="#5f4b33">4</text>
+    <circle cx="470" cy="46" r="22" fill="#a08a5f"/>
+    <text x="470" y="52" font-size="16" fill="#fff" text-anchor="middle">✈</text>
+    <g font-size="14" fill="#5f4b33">
+      <rect x="24" y="80" width="472" height="46" rx="12" fill="#fdf4d9"/>
+      <text x="44" y="109" font-weight="700">张三</text>
+      <text x="200" y="109">示例科技</text>
+      <text x="352" y="109" fill="#4d8a68" font-weight="700">2026-07-09 14:38</text>
+      <rect x="24" y="136" width="472" height="46" rx="12" fill="#fdf4d9"/>
+      <text x="44" y="165" font-weight="700">李四</text>
+      <text x="200" y="165">样例集团</text>
+      <text x="352" y="165" fill="#4d8a68" font-weight="700">2026-07-09 11:17</text>
+      <rect x="24" y="192" width="472" height="46" rx="12" fill="#fdf4d9"/>
+      <text x="44" y="221" font-weight="700">王五</text>
+      <text x="200" y="221">示例科技</text>
+      <text x="352" y="221" fill="#4d8a68" font-weight="700">2026-07-08 10:37</text>
+      <rect x="24" y="248" width="472" height="46" rx="12" fill="#fdf4d9"/>
+      <text x="44" y="277" font-weight="700">赵六</text>
+      <text x="200" y="277">虚构信息</text>
+      <text x="352" y="277" fill="#4d8a68" font-weight="700">2026-07-07 16:18</text>
+    </g>
+    <rect x="336" y="354" width="160" height="42" rx="21" fill="#ece0c2"/>
+    <text x="416" y="381" font-size="14" font-weight="700" fill="#5f4b33" text-anchor="middle">打开推荐列表</text>
+  </g>
+
+  <!-- 客户面试卡片 -->
+  <g transform="translate(620,130)">
+    <rect width="520" height="420" rx="18" fill="#fffbee"/>
+    <rect width="520" height="8" rx="4" fill="#7b8cf0"/>
+    <text x="28" y="52" font-size="20" font-weight="800" fill="#5f4b33">客户面试</text>
+    <text x="128" y="56" font-size="30" font-weight="800" fill="#5f4b33">2</text>
+    <circle cx="470" cy="46" r="22" fill="#a08a5f"/>
+    <text x="470" y="52" font-size="15" fill="#fff" text-anchor="middle">📅</text>
+    <g font-size="14" fill="#5f4b33">
+      <rect x="24" y="80" width="472" height="46" rx="12" fill="#fdf4d9"/>
+      <text x="44" y="109" font-weight="700">孙七</text>
+      <text x="200" y="109">产品经理岗</text>
+      <text x="352" y="109" fill="#4d8a68" font-weight="700">2026-07-11 13:00</text>
+      <rect x="24" y="136" width="472" height="46" rx="12" fill="#fdf4d9"/>
+      <text x="44" y="165" font-weight="700">周八</text>
+      <text x="200" y="165">研发总监岗</text>
+      <text x="352" y="165" fill="#4d8a68" font-weight="700">2026-07-10 15:00</text>
+    </g>
+    <rect x="336" y="354" width="160" height="42" rx="21" fill="#ece0c2"/>
+    <text x="416" y="381" font-size="14" font-weight="700" fill="#5f4b33" text-anchor="middle">打开面试列表</text>
+  </g>
+
+  <!-- 关注顾问 -->
+  <g transform="translate(60,578)">
+    <rect width="1080" height="200" rx="18" fill="#fffbee"/>
+    <text x="28" y="44" font-size="20" font-weight="800" fill="#5f4b33">关注顾问 · 近一个月推荐</text>
+    <text x="28" y="68" font-size="13" fill="#9b8767">跟踪所选顾问近 30 天推荐的人选，点击可打开谷露人才页。</text>
+
+    <g transform="translate(28,86)">
+      <rect width="330" height="90" rx="14" fill="#fdf4d9"/>
+      <circle cx="34" cy="34" r="18" fill="#76bd83"/>
+      <text x="34" y="40" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">李</text>
+      <text x="62" y="32" font-size="15" font-weight="800" fill="#5f4b33">李四</text>
+      <text x="62" y="52" font-size="12" fill="#8a765b">本月推荐 6 人</text>
+      <text x="16" y="78" font-size="12" fill="#5f4b33">张三 · 示例科技 / 产品经理　07-09</text>
+    </g>
+    <g transform="translate(376,86)">
+      <rect width="330" height="90" rx="14" fill="#fdf4d9"/>
+      <circle cx="34" cy="34" r="18" fill="#7b8cf0"/>
+      <text x="34" y="40" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">王</text>
+      <text x="62" y="32" font-size="15" font-weight="800" fill="#5f4b33">王小明</text>
+      <text x="62" y="52" font-size="12" fill="#8a765b">本月推荐 4 人</text>
+      <text x="16" y="78" font-size="12" fill="#5f4b33">李四 · 样例集团 / 架构师　07-08</text>
+    </g>
+    <g transform="translate(724,86)">
+      <rect width="330" height="90" rx="14" fill="#fdf4d9" stroke="#e4d7ba" stroke-dasharray="6 5" fill-opacity="0.4"/>
+      <text x="165" y="52" font-size="14" font-weight="700" fill="#b3a184" text-anchor="middle">＋ 选择要关注的顾问</text>
+      <text x="165" y="74" font-size="11" fill="#c9b995" text-anchor="middle">默认只显示本团队，选择本地保存</text>
+    </g>
+  </g>
+
+  <!-- 最近记录 -->
+  <g transform="translate(60,806)">
+    <rect width="1080" height="200" rx="18" fill="#fffbee"/>
+    <text x="28" y="44" font-size="20" font-weight="800" fill="#5f4b33">最近记录</text>
+    <text x="28" y="68" font-size="13" fill="#9b8767">最近更新的人才、公司和项目。</text>
+
+    <g transform="translate(28,86)">
+      <rect width="330" height="90" rx="14" fill="#ffffff" stroke="#eee2c5"/>
+      <text x="16" y="26" font-size="12" font-weight="900" fill="#8a765b">人才</text>
+      <text x="16" y="50" font-size="13" font-weight="700" fill="#5f4b33">张三 · 示例科技 / 产品经理</text>
+      <text x="16" y="72" font-size="13" font-weight="700" fill="#5f4b33">李四 · 样例集团 / 架构师</text>
+    </g>
+    <g transform="translate(376,86)">
+      <rect width="330" height="90" rx="14" fill="#ffffff" stroke="#eee2c5"/>
+      <text x="16" y="26" font-size="12" font-weight="900" fill="#8a765b">公司</text>
+      <text x="16" y="50" font-size="13" font-weight="700" fill="#5f4b33">示例科技 · 互联网 / 北京</text>
+      <text x="16" y="72" font-size="13" font-weight="700" fill="#5f4b33">样例集团 · 智能制造 / 上海</text>
+    </g>
+    <g transform="translate(724,86)">
+      <rect width="330" height="90" rx="14" fill="#ffffff" stroke="#eee2c5"/>
+      <text x="16" y="26" font-size="12" font-weight="900" fill="#8a765b">项目</text>
+      <text x="16" y="50" font-size="13" font-weight="700" fill="#5f4b33">高级产品经理 · 示例科技</text>
+      <text x="16" y="72" font-size="13" font-weight="700" fill="#5f4b33">研发总监 · 样例集团</text>
+    </g>
+  </g>
+
+  <text x="600" y="1040" font-size="13" fill="#b3a184" text-anchor="middle">▲ 谷露页面只读增强：岛屿工作台首页（示意重绘，虚构数据）——本周简历推荐 / 客户面试 / 关注顾问 / 最近记录</text>
+</svg>

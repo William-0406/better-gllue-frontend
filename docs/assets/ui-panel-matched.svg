@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 470" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif">
+  <rect width="400" height="470" fill="#f2f4f5"/>
+  <g transform="translate(20,18)">
+    <rect width="360" height="432" rx="18" fill="#fffbee" stroke="#e8dcc0"/>
+    <rect width="360" height="5" rx="2.5" fill="#76bd83"/>
+
+    <!-- 头部 -->
+    <rect x="18" y="20" width="34" height="34" rx="10" fill="#76bd83"/>
+    <text x="35" y="43" font-size="16" font-weight="800" fill="#fff8df" text-anchor="middle">查</text>
+    <text x="62" y="36" font-size="15" font-weight="800" fill="#5f4b33">查 张三</text>
+    <text x="62" y="53" font-size="11" font-weight="700" fill="#7a664b">示例科技 / 高级产品经理</text>
+    <rect x="258" y="22" width="46" height="24" rx="12" fill="#f2e6c8"/>
+    <text x="281" y="38" font-size="11" font-weight="800" fill="#7a664b" text-anchor="middle">重置</text>
+    <rect x="312" y="22" width="28" height="24" rx="12" fill="#f2e6c8"/>
+    <text x="326" y="39" font-size="13" font-weight="800" fill="#7a664b" text-anchor="middle">×</text>
+
+    <!-- 状态：发现强命中 -->
+    <rect x="18" y="70" width="324" height="30" rx="10" fill="#d7f4e9"/>
+    <text x="30" y="90" font-size="11" font-weight="800" fill="#267465">发现强命中的在库人才，建议先看备注。</text>
+
+    <!-- 命中卡片 -->
+    <g transform="translate(18,112)">
+      <rect width="324" height="256" rx="12" fill="#ffffff" opacity="0.85"/>
+      <rect x="14" y="14" width="56" height="20" rx="10" fill="#dcfce7"/>
+      <text x="42" y="28" font-size="10" font-weight="900" fill="#166534" text-anchor="middle">强命中</text>
+      <text x="80" y="29" font-size="14" font-weight="800" fill="#4f3e2b">张三</text>
+
+      <g font-size="11" font-weight="700" fill="#7a664b">
+        <text x="14" y="56">示例科技 / 高级产品经理</text>
+        <text x="14" y="76">姓名一致 + 公司&amp;title 都命中</text>
+        <text x="14" y="96">脉脉：示例科技 · 产品经理</text>
+        <text x="14" y="116">最近更新：2026-07-01　顾问：李四</text>
+      </g>
+
+      <rect x="14" y="130" width="296" height="62" rx="8" fill="#fff8df"/>
+      <text x="26" y="152" font-size="11" fill="#4f3e2b">「7/1 电话沟通，目前在职，看机会中，</text>
+      <text x="26" y="170" font-size="11" fill="#4f3e2b">期望 35k+，下周约客户面。」</text>
+
+      <rect x="14" y="206" width="140" height="34" rx="10" fill="#fff8df" stroke="#e4d7ba"/>
+      <text x="84" y="228" font-size="12" font-weight="800" fill="#5f4b33" text-anchor="middle">打开谷露人才</text>
+      <rect x="166" y="206" width="140" height="34" rx="10" fill="#76bd83"/>
+      <text x="236" y="228" font-size="12" font-weight="800" fill="#fffaf0" text-anchor="middle">拉简历补全</text>
+    </g>
+
+    <text x="180" y="400" font-size="11" fill="#b3a184" text-anchor="middle">已在库：直接打开原记录，避免撞候选人；</text>
+    <text x="180" y="418" font-size="11" fill="#b3a184" text-anchor="middle">或一键把最新简历补全到这条记录（只补不覆盖）。</text>
+  </g>
+</svg>
